@@ -2,9 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'AcuminPro';
+  src: url('/fonts/Acumin-RPro.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AcuminPro';
+  src: url('/fonts/Acumin-BdPro.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AcuminPro';
+  src: url('/fonts/Acumin-ItPro.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'OCRB';
+  src: url('/fonts/OCR-B.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@keyframes entryUp {
+  from {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-25%) translateX(10px);
+  }
+  to {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@keyframes entryDown {
+  from {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(25%) translateX(-10px);
+  }
+  to {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+.ocrb {
+  font-family: 'OCRB', sans-serif !important;
+}
+
+.entryUp {
+  animation: entryUp 1s;
+}
+
+.entryDown {
+  animation: entryDown 1s;
+}
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'AcuminPro', sans-serif;
 }
 
 .menu {
@@ -22,6 +85,11 @@ body {
 
 .yellowpages {
   background-color: #F2E744;
+}
+
+.calendar {
+  background-color: black;
+  color: white;
 }
 
 .justified-text {

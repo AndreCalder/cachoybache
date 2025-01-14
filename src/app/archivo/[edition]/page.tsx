@@ -91,14 +91,14 @@ function Edition() {
                     }} />
                 </div>
             </div>
-            <div className="w-full px-5 md:px-12 flex items-center gap-5">
-                <p>Primera Edición</p>
+            <div className="w-full px-5 md:px-12 flex items-center gap-5 py-4">
+                <p className='text-2xl'>Primera Edición</p>
                 <div className='flex-1 h-[2px] bg-black'></div>
-                <p>¿No que no tronabas pistolita?</p>
+                <p className='text-2xl font-bold'>¿No que no tronabas pistolita?</p>
             </div>
             {
                 portada != null && (
-                    <div className="w-full grid grid-cols-11 px-5 md:px-12 py-6 gap-2">
+                    <div className="w-full grid grid-cols-11 px-5 md:px-12 pb-6 gap-2">
                         <div className="col-span-11 lg:col-span-4 min-h-60 flex justify-center py-3" style={{ backgroundColor: covers[portada as keyof Covers].color }}>
                             <Image className='' src={covers[portada as keyof Covers].cover} alt={portada} width={200} height={400} />
                         </div>

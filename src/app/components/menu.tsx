@@ -55,7 +55,7 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
                         <div className={numberColClasses}>04</div>
                         <div className={textColClasses} >
                             <div className='flex items-center'>
-                                <p onClick={() => redirect("/archivo")}>Archivo</p>
+                                <p onClick={() => redirect("/archivo")}>ARCHIVO</p>
                                 {
                                     !subMenuActive
                                         ? <MoveDown onClick={() => setSubMenuActive(!subMenuActive)} className='ml-2' size={iconSize} />
@@ -74,6 +74,10 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
                     <div className="row-span-1 grid grid-cols-12 border-black border-b-2 hover:font-bold">
                         <div className={numberColClasses}>05</div>
                         <div className={textColClasses} onClick={() => redirect("seccionamarilla")}>SECCIÓN AMARILLA</div>
+                    </div>
+                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 hover:font-bold">
+                        <div className={numberColClasses}>06</div>
+                        <div className={textColClasses} onClick={() => redirect("calendario")}>CALENDARIO</div>
                     </div>
                     {
                         /*

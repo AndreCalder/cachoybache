@@ -16,11 +16,11 @@ function Header() {
         <>
             <Menu menuActive={menuActive} setMenuActive={setMenuActive} />
             <div className={
-                `${pathname.includes("nosotrxs") ? "aboutus border-black" : pathname.includes("espacios") ? "salespoints border-yellow-300" : pathname.includes("seccionamarilla") ? "yellowpages border-black" :  "bg-white border-black"} 
+                `${pathname.includes("nosotrxs") ? "aboutus border-black" : pathname.includes("espacios") ? "salespoints border-yellow-300" : pathname.includes("seccionamarilla") ? "yellowpages border-black" : pathname.includes("calendario") ? "calendar" : "bg-white border-black"} 
                 fixed w-screen h-12 flex items-center justify-between px-5 border-solid  border-b-2 
                 ${menuActive ? "z-40" : "z-50"}`}>
-                <Link href={"/"}>
-                    <p className='cursor-pointer'>Cacho y Bache</p>
+                <Link className='cursor-pointer ocrb ' href={"/"}>
+                    Cacho y bache
                 </Link>
                 <p className='cursor-pointer' onClick={() => setMenuActive(true)}><strong className='cursor-pointer'>[Menú]</strong></p>
             </div>

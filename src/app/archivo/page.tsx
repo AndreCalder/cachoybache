@@ -47,13 +47,13 @@ function Archivo() {
                 {
                     archive.map((edition, index) => {
                         return (
-                            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-4 flex flex-col gap-2">
+                            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col gap-2">
                                 <div className="w-full flex justify-center">
                                     <Image className='border-[1px] border-solid border-black' src={activeImages[index].cover} alt={edition.subtitle} width={500} height={400} />
                                 </div>
-                                <p className="font-light">{edition.subtitle}</p>
+                                <p className="font-light italic">{edition.subtitle}</p>
                                 <h2 className="font-bold text-2xl underline">{edition.title}</h2>
-                                <div className="w-full flex gap-4 py-2">
+                                <div className="w-full flex gap-4 py-4">
                                     {
                                         edition.variants.map((variant, variantIndex) => {
                                             return (
@@ -61,7 +61,7 @@ function Archivo() {
                                                     const newActiveImages = [...activeImages];
                                                     newActiveImages[index] = variant;
                                                     setActiveImages(newActiveImages);
-                                                }} key={variantIndex} className="h-3 w-3 cursor-pointer border-[1px] border-solid border-black rounded-full" style={{ backgroundColor: variant.color }}>
+                                                }} key={variantIndex} className="h-4 w-4 cursor-pointer border-[1px] border-solid border-black rounded-full" style={{ backgroundColor: variant.color }}>
                                                 </div>
                                             )
                                         })
