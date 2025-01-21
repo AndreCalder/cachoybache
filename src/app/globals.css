@@ -102,6 +102,13 @@ body {
   width: 100%;
 }
 
+.imageFixedHeight {
+  height: 10rem;
+  width: auto;
+  object-fit: cover; /* Ensures the image fills the container without stretching */
+  flex-grow: 1;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

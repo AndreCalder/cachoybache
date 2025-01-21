@@ -3,9 +3,9 @@ import Subtitle from '../components/subtitle'
 
 function POS() {
   return (
-    <div className="min-h-screen h-fit salespoints pt-12">
+    <div className="min-h-screen h-fit salespoints pt-16">
       <Subtitle subtitle="ESPACIOS DE VENTA" classes="salespoints border-b-2 border-solid border-yellow-300" />
-      <div className="grid grid-cols-12 w-screen py-5 px-5 sm:px-20">
+      <div className="grid grid-cols-12 w-screen py-5 px-5 md:px-12">
         <div className="col-span-12 sm:col-span-5">
           <p className="text-4xl font-black">
             CDMX

@@ -41,19 +41,19 @@ function Archivo() {
     const [activeImages, setActiveImages] = React.useState<Array<any>>(activeCovers)
 
     return (
-        <main className="w-screen pt-12">
+        <main className="w-screen pt-16">
             <Subtitle subtitle="ARCHIVO" classes="border-b-2 border-solid border-black" />
             <div className="min-h-lvh w-full grid grid-cols-12 px-5 md:px-12 pt-6">
                 {
                     archive.map((edition, index) => {
                         return (
-                            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col gap-2">
+                            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col gap-1">
                                 <div className="w-full flex justify-center">
-                                    <Image className='border-[1px] border-solid border-black' src={activeImages[index].cover} alt={edition.subtitle} width={500} height={400} />
+                                    <Image className='border-[1px] border-solid border-black' src={activeImages[index].cover} alt={edition.subtitle} width={450} height={600} />
                                 </div>
                                 <p className="font-light italic">{edition.subtitle}</p>
-                                <h2 className="font-bold text-2xl underline">{edition.title}</h2>
-                                <div className="w-full flex gap-4 py-4">
+                                <h2 className="font-normal text-2xl tracking-wider underline">{edition.title}</h2>
+                                <div className="w-full flex items-center gap-4 pb-4">
                                     {
                                         edition.variants.map((variant, variantIndex) => {
                                             return (
@@ -67,8 +67,9 @@ function Archivo() {
                                         })
                                     }
                                 </div>
-                                <div className="w-full">
-                                    <Link href={`/archivo/${edition.subtitle}?portada=${activeImages[index].variant}`} className="w-full border-[1px] border-solid border-black px-4 py-2">
+                                <br />
+                                <div className="w-full grid grid-cols-12 gap-4">
+                                    <Link href={`/archivo/${edition.subtitle}?portada=${activeImages[index].variant}`} className="col-span-6 text-center w-full border-[2px] ocrb border-solid border-black px-4 py-2">
                                         Ver más
                                     </Link>
                                 </div>

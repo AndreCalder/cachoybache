@@ -14,9 +14,9 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
 
     const router = useRouter();
     const [subMenuActive, setSubMenuActive] = React.useState(false);
-    const textClasses = "flex items-center text-[28px] md:text-4xl";
-    const subTitleClasses = "flex items-center text-[18px] md:text-4xl";
-    const numberColClasses = `col-span-2 sm:col-span-1 justify-center ${textClasses}`;
+    const textClasses = "flex items-center text-[28px] md:text-5xl";
+    const subTitleClasses = "flex items-center text-[18px] md:text-5xl";
+    const numberColClasses = `col-span-2 sm:col-span-1 justify-start ${textClasses}`;
     const textColClasses = `col-span-10 sm:col-span-11 cursor-pointer ${textClasses}`;
     const [iconSize, setIconSize] = React.useState(30);
 
@@ -32,26 +32,26 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
     };
 
     return (
-        <div id='menuContainer' className={`w-svw fixed menu z-50 top-0 bottom-0 transition ease-in-out delay-150 ${menuActive ? "translate-y-0" : "-translate-y-full"}`}>
+        <div id='menuContainer' className={`w-svw fixed menu flex flex-col z-50 top-0 bottom-0 transition ease-in-out delay-150 ${menuActive ? "translate-y-0" : "-translate-y-full"}`}>
             <div className='w-100 h-12 flex items-center justify-between px-5 border-solid border-black border-b-2'>
-                <p>Cacho y Bache</p>
-                <p className='cursor-pointer font-bold hover:font-black ' onClick={() => setMenuActive(false)}>[Salir]</p>
+                <p className='ocrb'>Cacho y bache</p>
+                <p className='cursor-pointer text-lg font-bold hover:font-black ' onClick={() => setMenuActive(false)}>[Salir]</p>
             </div>
             <div className="flex-1 h-4/6">
                 <div className="grid grid-rows-6 h-full">
-                    <div className="row-span-1 grid grid-cols-12 border-solid hover:font-bold border-black border-b-2">
+                    <div className="row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5">
                         <div className={numberColClasses}>01</div>
                         <div className={textColClasses} onClick={() => redirect("/nosotrxs")} >NOSOTRXS</div>
                     </div>
-                    <div className="row-span-1 grid grid-cols-12 border-solid hover:font-bold border-black border-b-2">
+                    <div className="row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5">
                         <div className={numberColClasses}>02</div>
                         <div className={textColClasses} onClick={() => redirect("/contacto")}>CONTACTO</div>
                     </div>
-                    <div className={`row-span-1 grid grid-cols-12 border-solid hover:font-bold border-black border-b-2`}>
+                    <div className={`row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5`}>
                         <div className={numberColClasses}>03</div>
                         <div className={textColClasses} onClick={() => redirect("/espacios")}>ESPACIOS DE VENTA</div>
                     </div>
-                    <div className={`row-span-1 grid grid-cols-12 border-solid hover:font-bold ${!subMenuActive && "border-black border-b-2"}`}>
+                    <div className={`row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic ${!subMenuActive && "border-black border-b-2 px-5"}`}>
                         <div className={numberColClasses}>04</div>
                         <div className={textColClasses} >
                             <div className='flex items-center'>
@@ -64,18 +64,18 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
                             </div>
                         </div>
                     </div>
-                    <div className={subMenuActive ? "row-span-1  grid grid-cols-12 border-black border-b-2 hover:font-bold" : "hidden"}>
+                    <div className={subMenuActive ? "row-span-1  grid grid-cols-12 border-black border-b-2 hover:font-bold hover:italic" : "hidden"}>
                         <div className="col-span-1"></div>
                         <div onClick={() => redirect("/archivo/Primera edición?portada=verde")}className={`col-span-11 font-light cursor-pointer ${subTitleClasses} sm:3xl hover:font-bold`}>
                             04.1 ESTA EDICIÓN 
                             {/* &gt; CALENDARIO */}
                         </div>
                     </div>
-                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 hover:font-bold">
+                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 px-5 hover:font-bold hover:italic">
                         <div className={numberColClasses}>05</div>
                         <div className={textColClasses} onClick={() => redirect("seccionamarilla")}>SECCIÓN AMARILLA</div>
                     </div>
-                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 hover:font-bold">
+                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 px-5 hover:font-bold hover:italic">
                         <div className={numberColClasses}>06</div>
                         <div className={textColClasses} onClick={() => redirect("calendario")}>CALENDARIO</div>
                     </div>
@@ -91,7 +91,7 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
                 </div>
             </div>
             <div className="w-100 h-1/6 grid grid-cols-2 items-center justify-between px-5 ">
-                <p className='col-span-2 sm:col-span-1'>Instagram</p>
+                <Link href={"https://www.instagram.com/cachoybache/"} className='col-span-2 sm:col-span-1'>Instagram</Link>
                 <div className='col-span-2 sm:col-span-1 flex flex-col items-end'>
                     <p className='text-xl sm:text-3xl font-bold'>cachoybache@gmail.com</p>
                     <p className='text-sm'>MEXICO</p>

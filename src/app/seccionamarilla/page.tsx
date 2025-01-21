@@ -1,11 +1,12 @@
 import React from 'react'
 import Subtitle from '../components/subtitle'
 import Image from 'next/image'
+import Link from 'next/link'
 function YellowPages() {
   return (
-    <main className="w-screen yellowpages pt-12">
+    <main className="w-screen yellowpages pt-16">
       <Subtitle subtitle="SECCIÓN AMARILLA" classes="border-b-2 border-solid border-black" />
-      <div className="min-h-96 w-100 grid grid-cols-11 px-5 md:px-8 py-6 gap-y-5 gap-x-5">
+      <div className="min-h-96 w-100 grid grid-cols-11 px-5 md:px-12 py-6 gap-y-5 gap-x-5">
         <div className="h-full col-span-12 lg:col-span-6 xl:col-span-2 flex flex-col justify-start gap-y-4">
           <div className="min-h-80 flex-1 w-full border-[2px] border-solid border-black p-4">
             <div className="font-bold text-center text-xl">ASTRONOMA FILMS</div>
@@ -27,8 +28,8 @@ function YellowPages() {
           </div>
           <div className="w-full border-[2px] border-dashed border-black p-4">
             <div className="w-full border-[2px] border-solid border-black p-2">
-              <p>¡ANÚNCIATE!</p>
-              <p>@cachoybache</p>
+              <p className='ocrb text-xl text-center'>¡ANÚNCIATE!</p>
+              <Link href={"mailto:cachoybache@gmail.com"} className='italic tracking-[0.4em] text-center'>@cachoybache</Link>
             </div>
           </div>
         </div>
