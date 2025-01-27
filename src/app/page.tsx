@@ -18,13 +18,13 @@ export default function Home() {
   }
   }, [])
   return (
-    <div className="pt-16">
+    <div className="">
       <main className="w-screen px-5 sm:px-20">
         <div className="h-50svh sm:h-lvh w-100 flex items-center justify-center">
           <Image
             src="/CachoyBache.svg"
             alt="Cacho y Bache logo"
-            width={543}
+            width={523}
             height={252}
           />
         </div>

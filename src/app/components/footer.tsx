@@ -2,9 +2,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React from 'react'
 
 function Footer() {
+
+    const pathname = usePathname();
+
+    if(pathname.includes("admin")) return null
+    
     return (
         <footer className="grid grid-cols-12 gap-4 bg-black px-5 md:px-12  py-10 justify-between">
             <div className="col-span-12 sm:col-span-7 flex flex-col justify-between">
@@ -15,30 +21,30 @@ function Footer() {
                     height={166}
                 />
                 <div>
-                    <p className="text-white">
+                    <p className="text-white text-xs">
                         / cachoybache@gmail.com
                     </p>
-                    <p className="text-white">
+                    <p className="text-white text-xs">
                         // Síguenos en nuestro <Link href="https://www.instagram.com/cachoybache/" className='underline cursor-pointer'>Instagram</Link>
                     </p>
                 </div>
             </div>
             <div className="col-span-12 sm:col-span-5 flex flex-col justify-between">
                 <div className="grid grid-cols-3 py-4">
-                    <p className="text-white">
+                    <p className="text-white text-xs">
                         Exhibicionismo/
                     </p>
-                    <p className="text-white">
+                    <p className="text-white text-xs">
                         Trueque/
                     </p>
-                    <p className="text-white">
+                    <p className="text-white text-xs">
                         Libertad
                     </p>
                 </div>
                 <br />
                 <div className="flex flex-col gap-2 pt-4 pb-6">
-                    <p className="text-white text-sm ocrb py-2 pr-12">
-                        Que no se te pase ningún evento. Suscríbete
+                    <p className="text-white text-xs ocrb py-2 pr-12">
+                        Que no se te pase ningún evento. <br /> Suscríbete
                         a nuestro calendario
                     </p>
 

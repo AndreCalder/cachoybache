@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 function Calendario() {
     return (
-        <div className='w-full pt-12 h-svh flex flex-col calendar'>
+        <div className='w-full pt-24 h-svh flex flex-col calendar'>
             <Subtitle subtitle="CALENDARIO" classes="border-b-2 border-solid border-white" />
             <div className="w-full flex-1 grid grid-cols-12  px-5 md:px-12">
                 <div className="col-span-12 lg:col-span-6 flex justify-center items-center">

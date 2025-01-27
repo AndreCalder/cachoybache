@@ -2,7 +2,7 @@ import React from 'react'
 
 function Eventos() {
   return (
-    <div className='w-full pt-16 h-svh flex flex-col'>
+    <div className='w-full pt-24 h-svh flex flex-col'>
       <div className={`w-full h-24 px-5 sm:px-15 flex items-center justify-start py-5`}>
         <div className="flex flex-col gap-2">
           <p className='font-lighter'>ESTA EDICIÓN</p>

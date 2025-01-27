@@ -223,7 +223,7 @@ function Edition() {
     }
 
     return (
-        <main className="w-screen pt-16">
+        <main className="w-screen pt-24">
             <Subtitle subtitle="ARCHIVO" classes="border-b-2 border-solid border-black" />
             <div className={`fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-50 flex justify-center items-center ${!lightBoxActive ? 'hidden' : ''}`}>
                 <XIcon className="w-10 h-10 cursor-pointer text-white fixed top-5 right-5" onClick={() => setLightBoxActive(false)} />

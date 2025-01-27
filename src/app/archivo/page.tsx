@@ -41,7 +41,7 @@ function Archivo() {
     const [activeImages, setActiveImages] = React.useState<Array<any>>(activeCovers)
 
     return (
-        <main className="w-screen pt-16">
+        <main className="w-screen pt-24">
             <Subtitle subtitle="ARCHIVO" classes="border-b-2 border-solid border-black" />
             <div className="min-h-lvh w-full grid grid-cols-12 px-5 md:px-12 pt-6">
                 {

@@ -12,12 +12,13 @@ function Header() {
 
     const [menuActive, setMenuActive] = React.useState(false)
 
+    if(pathname.includes("admin")) return null
     return (
         <>
             <Menu menuActive={menuActive} setMenuActive={setMenuActive} />
             <div className={
                 `${pathname.includes("nosotrxs") ? "aboutus border-black" : pathname.includes("espacios") ? "salespoints border-yellow-300" : pathname.includes("seccionamarilla") ? "yellowpages border-black" : pathname.includes("calendario") ? "calendar" : "bg-white border-black"} 
-                fixed w-screen h-16 flex items-center justify-between px-5  sm:px-12 border-solid  border-b-2 
+                fixed w-screen h-24 flex items-center justify-between px-5 sm:px-12 sm:pr-14  border-solid  border-b-2 
                 ${menuActive ? "z-40" : "z-50"}`}>
                 <Link className='cursor-pointer ocrb text-md' href={"/"}>
                     Cacho y bache

@@ -33,25 +33,25 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
 
     return (
         <div id='menuContainer' className={`w-svw fixed menu flex flex-col z-50 top-0 bottom-0 transition ease-in-out delay-150 ${menuActive ? "translate-y-0" : "-translate-y-full"}`}>
-            <div className='w-100 h-12 flex items-center justify-between px-5 border-solid border-black border-b-2'>
+            <div className='w-100 h-24 flex items-center justify-between px-5 sm:px-12 border-solid border-black border-b-2'>
                 <p className='ocrb'>Cacho y bache</p>
                 <p className='cursor-pointer text-lg font-bold hover:font-black ' onClick={() => setMenuActive(false)}>[Salir]</p>
             </div>
             <div className="flex-1 h-4/6">
                 <div className="grid grid-rows-6 h-full">
-                    <div className="row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5">
+                    <div className="row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5 sm:px-12">
                         <div className={numberColClasses}>01</div>
                         <div className={textColClasses} onClick={() => redirect("/nosotrxs")} >NOSOTRXS</div>
                     </div>
-                    <div className="row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5">
+                    <div className="row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5 sm:px-12">
                         <div className={numberColClasses}>02</div>
                         <div className={textColClasses} onClick={() => redirect("/contacto")}>CONTACTO</div>
                     </div>
-                    <div className={`row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5`}>
+                    <div className={`row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic border-black border-b-2 px-5 sm:px-12`}>
                         <div className={numberColClasses}>03</div>
                         <div className={textColClasses} onClick={() => redirect("/espacios")}>ESPACIOS DE VENTA</div>
                     </div>
-                    <div className={`row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic ${!subMenuActive && "border-black border-b-2 px-5"}`}>
+                    <div className={`row-span-1 grid grid-cols-12 border-solid hover:font-bold hover:italic ${!subMenuActive && "border-black border-b-2 px-5 sm:px-12"}`}>
                         <div className={numberColClasses}>04</div>
                         <div className={textColClasses} >
                             <div className='flex items-center'>
@@ -71,11 +71,11 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
                             {/* &gt; CALENDARIO */}
                         </div>
                     </div>
-                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 px-5 hover:font-bold hover:italic">
+                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 px-5 sm:px-12 hover:font-bold hover:italic">
                         <div className={numberColClasses}>05</div>
                         <div className={textColClasses} onClick={() => redirect("seccionamarilla")}>SECCIÓN AMARILLA</div>
                     </div>
-                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 px-5 hover:font-bold hover:italic">
+                    <div className="row-span-1 grid grid-cols-12 border-black border-b-2 px-5 sm:px-12 hover:font-bold hover:italic">
                         <div className={numberColClasses}>06</div>
                         <div className={textColClasses} onClick={() => redirect("calendario")}>CALENDARIO</div>
                     </div>
@@ -90,11 +90,11 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
 
                 </div>
             </div>
-            <div className="w-100 h-1/6 grid grid-cols-2 items-center justify-between px-5 ">
+            <div className="w-100 h-1/6 grid grid-cols-2 items-center justify-between px-5 sm:px-12">
                 <Link href={"https://www.instagram.com/cachoybache/"} className='col-span-2 sm:col-span-1'>Instagram</Link>
                 <div className='col-span-2 sm:col-span-1 flex flex-col items-end'>
                     <p className='text-xl sm:text-3xl font-bold'>cachoybache@gmail.com</p>
-                    <p className='text-sm'>MEXICO</p>
+                    <p className='text-sm'>MÉXICO</p>
                 </div>
             </div>
         </div>
