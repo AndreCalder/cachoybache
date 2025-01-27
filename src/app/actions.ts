@@ -4,8 +4,8 @@ import { createClient } from "@supabase/supabase-js";
 
 export async function uploadFileAction(file: File) {
   const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+    process.env.SUPABASE_URL || "",
+    process.env.SUPABASE_ANON_KEY || ""
   );
 
   const bucket = "cachoybache";
@@ -17,7 +17,7 @@ export async function uploadFileAction(file: File) {
   } else if (data) {
     let { path } = data;
     return `${
-      process.env.NEXT_PUBLIC_SUPABASE_URL
+      process.env.SUPABASE_URL
     }/storage/v1/object/public/${bucket}/${encodeURI(path)}`;
   }
 }
