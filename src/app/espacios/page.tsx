@@ -7,7 +7,7 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 function POS() {
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
   });
 
   const center = useMemo(() => ({
@@ -258,7 +258,7 @@ function POS() {
             </div>
           </div>
         </div>
-        <div className="col-span-12 sm:col-span-5 p-5 min-h-80">
+        <div className="col-span-12 sm:col-span-6 p-5 min-h-80">
           {
             isLoaded && (
               <GoogleMap zoom={10} center={center} mapContainerClassName="map-container">
