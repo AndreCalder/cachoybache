@@ -1,6 +1,6 @@
 "use client";
 
-import { createEvent, getEvents } from '@/app/api';
+import { createEvent, getCreativxs, getEvents } from '@/app/api';
 import Modal from '@/components/toolkit/Modal';
 import { Button } from '@/components/ui/button';
 import { DialogContent, DialogFooter } from '@/components/ui/dialog';
@@ -14,6 +14,7 @@ import { Card } from '@/components/ui/card';
 import { Edit, Trash } from 'lucide-react';
 import Link from 'next/link';
 import ActionLink from '@/components/toolkit/ActionLink';
+import Selector from '@/app/components/selector';
 
 function Eventos() {
 
@@ -24,12 +25,17 @@ function Eventos() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
+  const [place, setPlace] = useState('');
   const [reload, setReload] = useState(false);
+  const [creativxs, setCreativxs] = useState([]);
+  const [creativx, setCreativx] = useState('');
 
   const getData = async () => {
     try {
       const res = await getEvents();
+      const creativxRes = await getCreativxs();
       setEvents(res.data);
+      setCreativxs(creativxRes.data);
       setLoading(false);
     } catch (error) {
       toast.error('Hubo un error al cargar los eventos');
@@ -74,10 +80,14 @@ function Eventos() {
           title: string;
           date: string;
           cover: string;
+          location: string;
+          creativx: string;
           media: any[];
         } = {
           title: title,
           date: date,
+          location: place,
+          creativx: creativx,
           cover: coverURL || "",
           media: []
         }
@@ -86,6 +96,7 @@ function Eventos() {
 
         toast.dismiss();
         toast.success('Evento registrado exitosamente');
+
         setModalOpen(false);
         setReload(!reload);
       } catch (error) {
@@ -103,13 +114,24 @@ function Eventos() {
     <div>
       <Modal title='Registrar un Evento' open={modalOpen} setOpen={setModalOpen}>
         <div className="w-full max-h-[500px] overflow-y-auto px-5">
-          <div className="w-full items-center gap-1.5 py-2">
-            <Label htmlFor="title">Titulo</Label>
-            <Input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <div className="grid grid-cols-12 w-full gap-x-2">
+            <div className="col-span-12 lg:col-span-6 items-center gap-1.5 py-2">
+              <Label htmlFor="title">Titulo</Label>
+              <Input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            </div>
+            <div className="col-span-12 lg:col-span-6 items-center gap-1.5 py-2">
+              <Selector label="Creativx" placeholder='Seleccionar creativxs' value={creativx} setValue={setCreativx} options={creativxs} optionLabel='name' optionValue='_id.$oid' />
+            </div>
           </div>
-          <div className="w-full items-center gap-1.5 py-2">
-            <Label htmlFor="title">Fecha</Label>
-            <Input id="title" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+          <div className="grid grid-cols-12 w-full gap-x-2">
+            <div className="col-span-12 lg:col-span-6 items-center gap-1.5 py-2">
+              <Label htmlFor="title">Fecha</Label>
+              <Input id="title" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            </div>
+            <div className="col-span-12 lg:col-span-6 items-center gap-1.5 py-2">
+              <Label htmlFor="place">Lugar</Label>
+              <Input id="place" type="text" value={place} onChange={(e) => setPlace(e.target.value)} />
+            </div>
           </div>
           <div className="w-full items-center gap-1.5 py-2">
             <Label htmlFor="picture">Portada</Label>
@@ -143,6 +165,7 @@ function Eventos() {
               <Image className='rounded-lg col-span-2' src={event.cover} alt={event.title} width={550} height={100} />
               <div className="col-span-4 flex flex-col items-start justify-between">
                 <h1 className='text-left text-lg font-semibold'>{event.title}</h1>
+                <p className="text-left text-md ">{event.creativx.name}</p>
                 <p className='text-left  font-light text-sm'>{event.date}</p>
                 <p className='text-left font-light text-sm'>Imágenes: {event.media.length}</p>
               </div>

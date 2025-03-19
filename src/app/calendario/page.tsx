@@ -6,8 +6,8 @@ function Calendario() {
     return (
         <div className='w-full pt-24 h-svh flex flex-col calendar'>
             <Subtitle subtitle="CALENDARIO" classes="border-b-2 border-solid border-white" />
-            <div className="w-full flex-1 grid grid-cols-12  px-5 md:px-12">
-                <div className="col-span-12 lg:col-span-6 flex justify-center items-center">
+            <div className="w-full flex-1 grid grid-cols-12 gap-x-4 px-5 md:pl-0 md:pr-12">
+                <div className="col-span-12 lg:col-span-6 flex justify-start items-center">
                     <Image height={511} width={850} alt="conejo" src="/CalendarImg.png" />
                 </div>
                 <div className="col-span-12 lg:col-span-6 flex flex-col justify-center gap-6 relative">

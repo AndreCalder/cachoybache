@@ -77,7 +77,7 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
                     </div>
                     <div className="row-span-1 grid grid-cols-12 border-black border-b-2 px-5 sm:px-12 hover:font-bold hover:italic">
                         <div className={numberColClasses}>06</div>
-                        <div className={textColClasses} onClick={() => redirect("calendario")}>CALENDARIO</div>
+                        <div className={textColClasses} onClick={() => redirect("eventos")}>CALENDARIO</div>
                     </div>
                     {
                         /*

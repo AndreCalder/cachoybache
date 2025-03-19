@@ -48,17 +48,17 @@ function Page() {
                     </p>
                 </div>
                 <div className="col-span-12 md:col-span-7 grid grid-cols-12 gap-8">
-                    <div className="hidden min-h-80 md:grid col-span-12 xl:col-span-8 grid-rows-10">
+                    <div className="hidden min-h-80 md:grid col-span-12 xl:col-span-7 grid-rows-10">
                         <div className="row-span-3 relative">
                             <Image className='absolute left-0 top-0' src="/Tendedero.webp" alt="Mano" width={206} height={151} />
                         </div>
                         <div className="row-span-3 relative">
                             <div className="absolute h-fit w-fit right-0 top-0">
-                                <Image className='translate-x-[15px]' src="/Mano.webp" alt="Mano" width={180} height={140} />
+                                <Image className='translate-x-[60%] -translate-y-[5%]' src="/Mano.webp" alt="Mano" width={180} height={140} />
                             </div>
                         </div>
                         <div className="row-span-4 relative">
-                            <Image className='absolute left-16 bottom-0' src="/Espejo.webp" alt="Mano" width={180} height={120} />
+                            <Image className='absolute left-16 bottom-5' src="/Espejo.webp" alt="Mano" width={180} height={120} />
                         </div>
                     </div>
                     <div className="col-span-12 h-52 grid md:hidden grid-cols-12">
@@ -71,7 +71,7 @@ function Page() {
                             <Image className='absolute right-0 top-1/4' src="/Mano.webp" alt="Mano" width={100} height={151} />
                         </div>
                     </div>
-                    <div className="col-span-12 lg:col-span-6 xl:col-span-4 flex flex-col justify-end">
+                    <div className="col-span-12 xl:col-span-5 flex flex-col justify-end">
                         <div className="bg-[#ED1C1D] pt-6 pb-8 px-6">
                             <div className="flex justify-between text-3xl text-[#F2D5E0] font-bold">
                                 <span>E</span>

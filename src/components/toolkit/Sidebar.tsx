@@ -15,6 +15,9 @@ import {
   ImageIcon,
   ShoppingBag,
   Calendar,
+  Book,
+  PersonStanding,
+  LocateIcon,
 } from "lucide-react";
 
 import { Command, CommandGroup, CommandList } from "@/components/ui/command";
@@ -42,14 +45,24 @@ const Sidebar: React.FC<sidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
     {
       items: [
         {
-          link: `/admin`,
-          text: "Inicio",
-          icon: <LayoutPanelLeft className="h-5 w-5" />,
+          link: `/admin/ediciones`,
+          text: "Ediciones",
+          icon: <Book className="h-5 w-5" />,
         },
         {
           link: `/admin/eventos`,
           text: "Eventos",
           icon: <Calendar className="h-5 w-5" />,
+        },
+        {
+          link: `/admin/creativxs`,
+          text: "Creativxs",
+          icon: <PersonStanding className="h-5 w-5" />,
+        },
+        {
+          link: `/admin/ubicaciones`,
+          text: "Ubicaciones",
+          icon: <LocateIcon className="h-5 w-5" />,
         }
       ],
     },
@@ -68,7 +81,7 @@ const Sidebar: React.FC<sidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
       <div className="basis-1/8">
         <Link href={`/admin`}>
           <p className="ocrb text-xl py-6">Cacho y bache</p>
-        </Link> 
+        </Link>
       </div>
       <Command className="basis-7/8 h-full bg-none">
 
@@ -80,16 +93,18 @@ const Sidebar: React.FC<sidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                   <Link
                     onClick={() => toggleSidebar()}
                     href={menuItem.link}
-                    className={`flex p-2 font-[600] items-center ${pathname
-                      .toLowerCase() === menuItem.link.toLowerCase()
+                    className={`flex p-2 font-[600] items-center ${(pathname
+                      .toLowerCase() === "/admin" && pathname
+                        .toLowerCase() === menuItem.link.toLowerCase()) || (pathname.toLowerCase().includes(menuItem.link.toLowerCase()) && menuItem.link !== "/admin")
                       ? "disabled bg-gray-200 text-black"
                       : "text-gray-400"
                       }`}
                     key={menuItem.text}
                   >
                     <div
-                      className={`${pathname
-                        .toLowerCase() === menuItem.link.toLowerCase()
+                      className={`${(pathname
+                        .toLowerCase() === "/admin" && pathname
+                          .toLowerCase() === menuItem.link.toLowerCase()) || (pathname.toLowerCase().includes(menuItem.link.toLowerCase()) && menuItem.link !== "/admin")
                         ? "disable text-black"
                         : "text-gray-400"
                         } flex justify-center items-center rounded-xl w-8 h-8 mr-2`}

@@ -7,12 +7,16 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'wweskyvxhhjpucczrjww.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'vumbnail.com',
       }
     ]
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: '20mb',
+      bodySizeLimit: '200mb',
     },
   },
 };

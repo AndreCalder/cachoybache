@@ -58,6 +58,10 @@
   font-family: 'OCRB', sans-serif !important;
 }
 
+.acumin {
+  font-family: 'AcuminPro', sans-serif;
+}
+
 .entryUp {
   animation: entryUp 1s;
 }
@@ -110,8 +114,10 @@ body {
 }
 
 .map-container {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-width: 100%;
+  width: 500px;
+  height: 500px;
 }
 
 @layer base {
