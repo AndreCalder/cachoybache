@@ -66,38 +66,40 @@ function Eventos() {
           }
         </div>
         <div className="col-span-12 md:col-span-8 ">
-          {
-            events.map((event, index) => (
+            {
+            events
+              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+              .map((event, index) => (
               <div key={index} className="w-full flex items-center px-5 gap-x-4 py-2 border-b-[2px] border-black cursor-pointer">
-                  <p className='text-[#ED1C1D] font-bold acumin'>
-                    {
-                      new Date(event.date).toLocaleDateString('es-MX', { day: '2-digit' }).toUpperCase()
-                    }
-                    <br />
-                    {
-                      new Date(event.date).toLocaleDateString('es-MX', { month: 'short' }).toUpperCase()
-                    }
-                  </p>
-                  <p className='text-xl font-bold italic acumin'>
-                    {
-                      event.title
-                    }
-                  </p>
-                  <p className='text-xl font-light acumin'>
-                    {
-                      event.location
-                    }
-                  </p>
+                <p className='text-[#ED1C1D] font-bold acumin'>
                   {
-                    event.media.length > 0 && (
-                      <Link href={`/eventos/${event._id.$oid}`}>
-                        Ver más
-                      </Link>
-                    )
+                  new Date(event.date).toLocaleDateString('es-MX', { day: '2-digit' }).toUpperCase()
                   }
+                  <br />
+                  {
+                  new Date(event.date).toLocaleDateString('es-MX', { month: 'short' }).toUpperCase()
+                  }
+                </p>
+                <p className='text-xl font-bold italic acumin'>
+                  {
+                  event.title
+                  }
+                </p>
+                <p className='text-xl font-light acumin'>
+                  {
+                  event.location
+                  }
+                </p>
+                {
+                  event.media.length > 0 && (
+                  <Link href={`/eventos/${event._id.$oid}`}>
+                    Ver más
+                  </Link>
+                  )
+                }
               </div>
-            ))
-          }
+              ))
+            }
         </div>
       </div>
     </div>
