@@ -72,6 +72,7 @@
 
 body {
   font-family: 'AcuminPro', sans-serif;
+  overflow-x: hidden;
 }
 
 .menu {

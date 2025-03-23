@@ -13,6 +13,7 @@ import React from 'react'
 import { toast } from 'sonner';
 
 function Ubicaciones() {
+
   const [modalOpen, setModalOpen] = React.useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const [locationModalOpen, setLocationModalOpen] = React.useState(false);
@@ -94,11 +95,13 @@ function Ubicaciones() {
     setDeleteModalOpen(false);
     setUploading(false);
   }
+
   React.useEffect(() => {
     if (uploading == false) {
       getData();
     }
-  }, [uploading])
+  }, [uploading]);
+  
   return (
     <div>
       <Modal title='Registrar un Estado' open={modalOpen} setOpen={setModalOpen}>
