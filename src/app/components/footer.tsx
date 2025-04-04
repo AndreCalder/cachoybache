@@ -9,18 +9,27 @@ function Footer() {
 
     const pathname = usePathname();
 
-    if(pathname.includes("admin")) return null
-    
+    if (pathname.includes("admin")) return null
+
     return (
         <footer className="grid grid-cols-12 gap-4 bg-black px-5 md:px-12  py-10 justify-between">
             <div className="col-span-12 sm:col-span-7 flex flex-col justify-between">
                 <Image
+                    className='hidden md:block'
                     src="/FooterLogo.svg"
                     alt="Cacho y Bache logo"
                     width={300}
                     height={166}
                 />
-                <div>
+                <div className="w-100 flex md:hidden justify-center py-2">
+                    <Image
+                        src="/FooterLogo.svg"
+                        alt="Cacho y Bache logo"
+                        width={250}
+                        height={116}
+                    />
+                </div>
+                <div className='py-2'>
                     <p className="text-white text-xs">
                         / cachoybache@gmail.com
                     </p>
@@ -49,11 +58,11 @@ function Footer() {
                     </p>
 
                     <div className="grid grid-cols-4 py-2">
-                        <div className="col-span-3 pr-2">
+                        <div className="col-span-4 md:col-span-3 md:pr-2">
                             <input className='ocrb text-xs w-full bg-black text-white border-solid border-white border-2 py-2 px-3' placeholder='Correo electrónico' type="text" />
                         </div>
-                        <div className="col-span-1">
-                            <button className='ocrb h-full w-full bg-white text-xs text-black border-none'>Suscribirme</button>
+                        <div className="col-span-4 md:col-span-1 flex justify-center py-2 md:py-0">
+                            <button className='ocrb h-full w-full py-3 md:py-0 bg-white text-xs text-black border-none'>Suscribirme</button>
                         </div>
                     </div>
                 </div>

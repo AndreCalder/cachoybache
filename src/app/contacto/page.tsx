@@ -9,11 +9,11 @@ function Contact() {
     <div className='w-svw h-svh pt-24 flex flex-col items-center justify-between'>
       <Subtitle subtitle="CONTACTO" classes="border-b-2 border-solid border-black" />
       <CachoyBache />
-      <div className='flex flex-col items-center gap-6'> <Link href={"mailto:cachoybache@gmail.com"} className="text-4xl tracking-[0.3em] font-[900]">
+      <div className='flex flex-col items-center gap-6'> <Link href={"mailto:cachoybache@gmail.com"} className="text-2xl tracking-[0.3em] font-[900]">
         cachoybache@gmail.com
       </Link>
-        <Link className='underline ocrb text-md cursor-pointer hover:scale-105 ease-in-out' href={"https://www.instagram.com/cachoybache/"}>Instagram</Link></div>
-      <Image height={511} width={129} alt="conejo" src="/conejo1.png" />
+        <Link className='underline ocrb text-xs cursor-pointer hover:scale-105 ease-in-out' href={"https://www.instagram.com/cachoybache/"}>Instagram</Link></div>
+      <Image height={450} width={100} alt="conejo" src="/conejo1.png" />
     </div>
   )
 }

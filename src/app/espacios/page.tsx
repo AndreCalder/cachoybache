@@ -105,22 +105,31 @@ function POS() {
                   {
                     selectedLocations.slice(0, 4).map((location, index) => (
                       <div key={location.name} className="container py-3">
-                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2 flex justify-between'>
+                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2 hidden md:flex justify-between'>
                           {
                             location.name.split('').map((letter: any, index: React.Key | null | undefined) => (
                               <span key={index}>{letter}</span>
                             ))
                           }
                         </div>
+                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2  md:hidden'>
+                          {location.name}
+                        </div>
                         <p className='w-100 text-xs font-thin text-justify'>
                           {location.address}
                         </p>
 
-                        <div className="flex justify-between text-md font-thin p">
+                        <div className="hidden md:flex justify-between text-md font-thin p">
                           {
                             location.zipCode.split('').map((letter: any, index: React.Key | null | undefined) => (
                               <span key={index}>{letter}</span>
                             ))
+                          }
+                        </div>
+
+                        <div className='md:hidden text-md font-thin'>
+                          {
+                            location.zipCode
                           }
                         </div>
                       </div>
@@ -135,22 +144,30 @@ function POS() {
                   {
                     selectedLocations.slice(4, 7).map((location, index) => (
                       <div key={location.name} className="container py-3">
-                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2 flex justify-between'>
+                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2  hidden md:flex justify-between'>
                           {
                             location.name.split('').map((letter: any, index: React.Key | null | undefined) => (
                               <span key={index}>{letter}</span>
                             ))
                           }
                         </div>
+                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2  md:hidden'>
+                          {location.name}
+                        </div>
                         <p className='w-100 text-xs font-thin text-justify'>
                           {location.address}
                         </p>
 
-                        <div className="flex justify-between text-md font-thin p">
+                        <div className="hidden md:flex justify-between text-md font-thin p">
                           {
                             location.zipCode.split('').map((letter: any, index: React.Key | null | undefined) => (
                               <span key={index}>{letter}</span>
                             ))
+                          }
+                        </div>
+                        <div className='md:hidden text-md font-thin'>
+                          {
+                            location.zipCode
                           }
                         </div>
                       </div>
@@ -165,22 +182,30 @@ function POS() {
                   {
                     selectedLocations.slice(8, 12).map((location, index) => (
                       <div key={location.name} className="container py-3">
-                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2 flex justify-between'>
+                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2  hidden md:flex justify-between'>
                           {
                             location.name.split('').map((letter: any, index: React.Key | null | undefined) => (
                               <span key={index}>{letter}</span>
                             ))
                           }
                         </div>
+                        <div className='w-100 font-bold text-xl items-center leading-4 pb-2  md:hidden'>
+                          {location.name}
+                        </div>
                         <p className='w-100 text-xs font-thin text-justify'>
                           {location.address}
                         </p>
 
-                        <div className="flex justify-between text-md font-thin p">
+                        <div className="hidden md:flex justify-between text-md font-thin p">
                           {
                             location.zipCode.split('').map((letter: any, index: React.Key | null | undefined) => (
                               <span key={index}>{letter}</span>
                             ))
+                          }
+                        </div>
+                        <div className='md:hidden text-md font-thin'>
+                          {
+                            location.zipCode
                           }
                         </div>
                       </div>
