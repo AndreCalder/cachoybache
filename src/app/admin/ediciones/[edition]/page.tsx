@@ -1,6 +1,6 @@
 "use client";
 
-import { addToEditionGallery, getEdition } from '@/app/api';
+import { addToEditionGallery, getEdition, updateEdition } from '@/app/api';
 import Modal from '@/components/toolkit/Modal';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -29,6 +29,8 @@ function Edition() {
   const [section, setSection] = React.useState('');
   const [activeMedia, setActiveMedia] = React.useState(0);
   const [lightBoxActive, setLightBoxActive] = React.useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+  const [deleteIndex, setDeleteIndex] = React.useState(-1);
 
   function isValidHexColor(hex: string) {
     return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
@@ -36,6 +38,7 @@ function Edition() {
 
   const getData = async (edition: string) => {
     const res = await getEdition(edition);
+    console.log(res.data);
     setEditionData(res.data);
   };
 
@@ -72,13 +75,9 @@ function Edition() {
 
         toast.success('Imagen registrada correctamente');
 
-
-
       } catch (error) {
-
         setModalOpen(false);
         setUploading(false);
-
         toast.error('Hubo un error al registrar la imagen');
 
       }
@@ -98,6 +97,32 @@ function Edition() {
     }
   };
 
+  const deleteEntry = async () => {
+    if (edition && deleteIndex !== -1) {
+      try {
+        toast.loading('Eliminando Imagen');
+        const tempEditionData = { ...editionData };
+        tempEditionData.gallery.splice(deleteIndex, 1);
+        
+        setEditionData(tempEditionData);
+
+        await updateEdition(
+          edition.toString(),
+          tempEditionData
+        );
+
+        toast.dismiss();
+        setDeleteModalOpen(false);
+        toast.success('Imagen eliminada correctamente');
+      } catch (error) {
+        setDeleteModalOpen(false);
+        toast.error('Hubo un error al eliminar la imagen');
+      }
+    } else {
+      toast.error('Hubo un error al eliminar la imagen');
+    }
+  }
+
   React.useEffect(() => {
     if (edition) {
       getData(edition.toString());
@@ -109,6 +134,17 @@ function Edition() {
       {
         editionData ? (
           <Card className='p-5'>
+
+            <Modal title='Confirmación' open={deleteModalOpen} setOpen={setDeleteModalOpen}>
+              <div className="w-full max-h-[500px] overflow-y-auto px-5 justify-center items-center" >
+                <p className='text-center'>¿Estás seguro que deseas eliminar esta imagen? Esta acción no es reversible</p>
+              </div>
+              <DialogFooter>
+                <Button className='bg-red-500' onClick={() => deleteEntry()}>
+                  Eliminar
+                </Button>
+              </DialogFooter>
+            </Modal>
             {
               editionData.gallery.length > 0 && (
                 <div className={`fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-50 flex justify-center items-center ${!lightBoxActive ? 'hidden' : ''}`}>
@@ -199,8 +235,14 @@ function Edition() {
             <div className="grid grid-cols-12 gap-4 p-5">
               {
                 editionData.gallery.map((image: any, index: number) => (
-                  <div key={index} onClick={() => { setActiveMedia(index); setLightBoxActive(true); }} className='col-span-12 md:col-span-4 lg:col-span-3 gap-y-4 flex flex-col p-5 items-center justify-center cursor-pointer'>
-                    <div className="col-span-12 flex items-center justify-center">
+                  <div key={index} className='col-span-12 md:col-span-4 lg:col-span-3 gap-y-4 flex flex-col p-5 items-center justify-center cursor-pointer relative'>
+                    <div onClick={() => {
+                      setDeleteIndex(index);
+                      setDeleteModalOpen(true);
+                    }} className="w-5 h-5 absolute flex justify-center items-center rounded-full top-2 right-2 cursor-pointer text-xs bg-red-500">
+                      <XIcon className="w-3 h-3 text-white" />
+                    </div>
+                    <div onClick={() => { setActiveMedia(index); setLightBoxActive(true); }} className="col-span-12 flex items-center justify-center">
                       <img src={image.url} alt={image.title} className="w-32 h-32 object-cover rounded-lg" />
                     </div>
                   </div>
