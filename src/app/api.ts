@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// https://cachoybache-dot-mlai-434520.uc.r.appspot.com
+//
 const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8080",
+  baseURL: "https://cachoybache-dot-mlai-434520.uc.r.appspot.com",
   headers: {
     "Content-type": "application/json",
   },
