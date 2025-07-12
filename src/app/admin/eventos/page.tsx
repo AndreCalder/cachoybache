@@ -35,7 +35,6 @@ function Eventos() {
     try {
       const res = await getAllEvents();
       const creativxRes = await getCreativxs();
-      console.log(res.data);
       setEvents(res.data.data);
       setCreativxs(creativxRes.data);
       setLoading(false);

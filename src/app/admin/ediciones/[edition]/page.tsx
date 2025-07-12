@@ -38,7 +38,6 @@ function Edition() {
 
   const getData = async (edition: string) => {
     const res = await getEdition(edition);
-    console.log(res.data);
     setEditionData(res.data);
   };
 

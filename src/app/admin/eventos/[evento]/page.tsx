@@ -171,7 +171,6 @@ function Evento() {
     } else if (fileType === "video") {
       if (videoFile) {
         resourceUrl = await uploadVideo(videoFile);
-        console.log(resourceUrl, resourceUrl.split("/")[2]);
         id = resourceUrl.split("/")[2];
         type = "video";
       }
