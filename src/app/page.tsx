@@ -7,16 +7,20 @@ import { ArrowUpRight } from "lucide-react";
 import React from "react";
 
 export default function Home() {
+  const [bgImageParams, setBgImageParams] = React.useState({
+    width: 1484,
+    height: 722,
+  });
+  const [calendarImage, setCalendarImage] = React.useState(
+    "/CalendarBGImage.png"
+  );
 
-  const [bgImageParams, setBgImageParams] = React.useState({width: 1484, height: 722})
-  const [calendarImage, setCalendarImage] = React.useState("/CalendarBGImage.png");
-  
   React.useEffect(() => {
     if (window.innerWidth <= 768) {
-      setCalendarImage("/CalendarBGMobile.png")
-      setBgImageParams({width:384, height: 362 })
-  }
-  }, [])
+      setCalendarImage("/CalendarBGMobile.png");
+      setBgImageParams({ width: 384, height: 362 });
+    }
+  }, []);
   return (
     <div className="">
       <main className="w-screen px-5 sm:px-20">
@@ -28,7 +32,8 @@ export default function Home() {
             height={252}
           />
         </div>
-        <div id="calendarBanner" className="w-100 h-fit relative z-10">
+        {/*
+<div id="calendarBanner" className="w-100 h-fit relative z-10">
           <Image
             className="z-10"
             src={calendarImage}
@@ -46,8 +51,8 @@ export default function Home() {
             </p>
           </div>
         </div>
+          */}
       </main>
-
     </div>
   );
 }
