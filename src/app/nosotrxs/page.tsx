@@ -28,6 +28,10 @@ function Page() {
         {
             "name": "Paulina",
             "lastname": "López"
+        },
+        {
+            "name": "Emilio",
+            "lastname": "Galicia"
         }
     ]
     return (
