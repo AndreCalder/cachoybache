@@ -66,7 +66,7 @@ function Menu({ menuActive, setMenuActive }: MenuProps) {
                     </div>
                     <div className={subMenuActive ? "row-span-1  grid grid-cols-12 border-black border-b-2 hover:font-bold hover:italic" : "hidden"}>
                         <div className="col-span-1"></div>
-                        <div onClick={() => redirect("/archivo/Primera edición?portada=verde")}className={`col-span-11 font-light cursor-pointer ${subTitleClasses} sm:3xl hover:font-bold`}>
+                        <div onClick={() => redirect(`/archivo/67cf5cf9e4473199e0cc4ace?portada=verde`)}className={`col-span-11 font-light cursor-pointer ${subTitleClasses} sm:3xl hover:font-bold`}>
                             04.1 ESTA EDICIÓN 
                             {/* &gt; CALENDARIO */}
                         </div>

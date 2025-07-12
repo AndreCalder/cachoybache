@@ -59,8 +59,6 @@ export async function uploadVideo(file: File) {
     },
     body: file, // Pass the File or Blob object directly
   });
-  console.log( initResponse.data);
-  console.log(uploadResponse);
   if (!uploadResponse.ok) {
     return "Failed to upload video:";
   }

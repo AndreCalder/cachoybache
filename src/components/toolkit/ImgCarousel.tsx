@@ -16,7 +16,6 @@ function ImgCarousel({
     const [images, setImages] = useState<Array<React.ReactNode>>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const moveLeft = () => {
-        console.log("Moving left", currentImageIndex, img_links.length);
         if (currentImageIndex === img_links.length - 1) {
             setCurrentImageIndex(0);
         } else {
@@ -25,7 +24,6 @@ function ImgCarousel({
     }
 
     const moveRight = () => {
-        console.log("Moving right", currentImageIndex, img_links.length);
         if (currentImageIndex === 0) {
             setCurrentImageIndex(img_links.length - 1);
         } else {
@@ -65,8 +63,6 @@ function ImgCarousel({
     };
 
     const finishLoading = () => {
-        console.log(loading);
-        console.log("Finished loading");
         if (loading) {
             setLoading(false);
         }

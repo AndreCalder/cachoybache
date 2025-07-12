@@ -194,7 +194,6 @@ function Edition() {
     const getData = async () => {
         if (edition) {
             const res = await getEdition(edition.toString());
-            console.log(res.data)
             setEditionData(res.data);
         }
     }

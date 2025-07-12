@@ -28,7 +28,7 @@ function Selector(
     return (
         <>
             <Label>{label}</Label>
-            <Select value={value} onValueChange={(val) => { console.log(val); setValue(val)}}>
+            <Select value={value} onValueChange={(val) => { setValue(val)}}>
                 <SelectTrigger>
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>

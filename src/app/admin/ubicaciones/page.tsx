@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteCreativx, getCreativxs, getLocations, getStates, makeCreativx, makeLocation, makeState } from '@/app/api';
+import { deleteCreativx, getCreativxs, getLocations, getStates, makeCreativx, makeLocation, makeState, deleteLocation, deleteState } from '@/app/api';
 import Selector from '@/app/components/selector';
 import Modal from '@/components/toolkit/Modal';
 import { Button } from '@/components/ui/button'
@@ -27,6 +27,7 @@ function Ubicaciones() {
   const [zipCode, setZipCode] = React.useState('');
   const [coords, setCoords] = React.useState('');
   const [deleteId, setDeleteId] = React.useState('');
+  const [deleteType, setDeleteType] = React.useState<'state' | 'location'>('state');
 
   const submitData = async () => {
     if (!name) {
@@ -82,15 +83,21 @@ function Ubicaciones() {
 
   const deleteEntry = async () => {
     setUploading(true);
-    toast.loading("Eliminando Creativx");
+    const loadingMessage = deleteType === 'state' ? "Eliminando Estado" : "Eliminando Ubicación";
+    const successMessage = deleteType === 'state' ? "Estado eliminado" : "Ubicación eliminada";
+    toast.loading(loadingMessage);
 
     try {
-      let res = await deleteCreativx(deleteId);
+      if (deleteType === 'state') {
+        await deleteState(deleteId);
+      } else {
+        await deleteLocation(deleteId);
+      }
       toast.dismiss();
-      toast.success("Creativx eliminado");
+      toast.success(successMessage);
     } catch (error: any) {
       toast.dismiss();
-      toast.error(error.response.data.error);
+      toast.error(error.response?.data?.error || "Error al eliminar");
     }
     setDeleteModalOpen(false);
     setUploading(false);
@@ -150,7 +157,9 @@ function Ubicaciones() {
 
       <Modal title='Confirmación' open={deleteModalOpen} setOpen={setDeleteModalOpen}>
         <div className="w-full max-h-[500px] overflow-y-auto px-5 justify-center items-center" >
-          <p className='text-center'>¿Estás seguro que deseas eliminar esta persona? Esta acción no es reversible</p>
+          <p className='text-center'>
+            ¿Estás seguro que deseas eliminar {deleteType === 'state' ? 'este estado' : 'esta ubicación'}? Esta acción no es reversible
+          </p>
         </div>
         <DialogFooter>
           <Button className='bg-red-500' onClick={() => deleteEntry()}>
@@ -173,7 +182,15 @@ function Ubicaciones() {
           {states.map((state, index) => (
             <div key={index} className="rounded-full bg-gray-200 px-4 py-2 flex items-center justify-center gap-4">
               <p>{state.name}</p>
-              <X onClick={(() => { setDeleteId(state._id.$oid); setDeleteModalOpen(true); })} className='cursor-pointer' size={12} />
+              <X 
+                onClick={() => { 
+                  setDeleteId(state._id.$oid); 
+                  setDeleteType('state'); 
+                  setDeleteModalOpen(true); 
+                }} 
+                className='cursor-pointer' 
+                size={12} 
+              />
             </div>
           ))}
 
@@ -185,10 +202,23 @@ function Ubicaciones() {
         </h2>
         <div className="w-full grid grid-cols-12 gap-5 py-5">
           {locations.map((location, index) => (
-            <div key={index} className="col-span-12 md:col-span-6 px-4 py-2 gap-4">
-              <p className='text-md font-bold'>{location.name}</p>
-              <p className="text-xs">{location.address}</p>
-              <p className="text-xs">{location.zipCode}</p>
+            <div key={index} className="col-span-12 md:col-span-6 px-4 py-2 gap-4 border rounded-lg bg-gray-50 relative">
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <p className='text-md font-bold'>{location.name}</p>
+                  <p className="text-xs">{location.address}</p>
+                  <p className="text-xs">{location.zipCode}</p>
+                </div>
+                <X 
+                  onClick={() => { 
+                    setDeleteId(location._id.$oid); 
+                    setDeleteType('location'); 
+                    setDeleteModalOpen(true); 
+                  }} 
+                  className='cursor-pointer text-red-500 hover:text-red-700' 
+                  size={16} 
+                />
+              </div>
             </div>
           ))}
         </div>

@@ -1,12 +1,17 @@
 import axios from "axios";
 
-//
+//https://cachoybache-dot-mlai-434520.uc.r.appspot.com
 const axiosInstance = axios.create({
-  baseURL: "https://cachoybache-dot-mlai-434520.uc.r.appspot.com",
+  baseURL:
+    process.env.NEXT_PUBLIC_ENVIRONMENT === "Development"
+      ? "http://localhost:8080"
+      : "https://cachoybache-dot-mlai-434520.uc.r.appspot.com",
   headers: {
     "Content-type": "application/json",
   },
 });
+
+export const getAllEvents = () => axiosInstance.get("/events/");
 
 export const getEvents = (id?: string) =>
   axiosInstance.get("/events/", { params: { creativx: id } });
@@ -29,6 +34,8 @@ export const updateEvent = (
     media: any[];
   }
 ) => axiosInstance.put(`/events/${id}`, data);
+
+export const deleteEvent = (id: string) => axiosInstance.delete(`/events/${id}`);
 
 export const makeEdition = (data: {
   title: string;
@@ -83,5 +90,11 @@ export const makeLocation = (data: {
 export const makeState = (data: { name: string }) => {
   return axiosInstance.post("/locations/state", data);
 };
+
+export const deleteLocation = (id: string) =>
+  axiosInstance.delete(`/locations/${id}`);
+
+export const deleteState = (id: string) =>
+  axiosInstance.delete(`/locations/state/${id}`);
 
 export default axiosInstance;
