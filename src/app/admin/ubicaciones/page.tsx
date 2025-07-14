@@ -74,8 +74,9 @@ function Ubicaciones() {
       let res = await getLocations();
 
       let statesRes = await getStates();
-      setStates(statesRes.data);
-      setLocations(res.data);
+      
+      setStates(statesRes.data.data);
+      setLocations(res.data.data);
 
     } catch (error) {
     }
