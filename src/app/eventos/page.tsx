@@ -102,18 +102,21 @@ function Eventos() {
                 </p>
                 <p className="text-xl font-bold italic acumin">{event.title}</p>
                 <p className="text-xl font-light acumin">{event.location}</p>
+                <div className="text-sm text-right text-gray-600">
+                  {event.creativxs && event.creativxs.length > 0
+                    ? event.creativxs.map((c: any) => c.name).join(", ")
+                    : "Por definir.."}
+                </div>
                 {event.media.length > 0 && (
                   <Link href={`/eventos/${event._id.$oid}`}>Ver más</Link>
                 )}
               </div>
             ))}
-            {
-              events.length === 0 && (
-                <div className="w-full flex items-center justify-center h-full">
-                  <p className="text-xl font-bold italic acumin">No hay eventos</p>
-                </div>
-              )
-            }
+          {events.length === 0 && (
+            <div className="w-full flex items-center justify-center h-full">
+              <p className="text-xl font-bold italic acumin">No hay eventos</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

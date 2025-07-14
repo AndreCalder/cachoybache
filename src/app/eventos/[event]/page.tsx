@@ -83,6 +83,25 @@ function Evento() {
                         <div className={`w-full min-h-24 px-5 md:px-12 flex items-center justify-start py-8 border-b-4 border-black`}>
                             <div className="flex flex-col gap-2">
                                 <p className='tracking-[0.3em] font-bold sm:text-3xl acumin italic'>{eventData.title}</p>
+                                <p className='text-sm text-gray-600'>
+                                    {new Date(eventData.date).toLocaleDateString('es-MX', { 
+                                        weekday: 'long', 
+                                        year: 'numeric', 
+                                        month: 'long', 
+                                        day: 'numeric' 
+                                    })}
+                                </p>
+                                {eventData.location && (
+                                    <p className='text-sm text-gray-600'>📍 {eventData.location}</p>
+                                )}
+                                {eventData.creativxs && eventData.creativxs.length > 0 && (
+                                    <div className="mt-2">
+                                        <p className='text-sm font-semibold ocrb'>Creativxs:</p>
+                                        <p className='text-sm text-gray-600'>
+                                            {eventData.creativxs.map((c: any) => c.name).join(", ")}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="w-full h-96 overflow-y-scroll grid grid-cols-12">

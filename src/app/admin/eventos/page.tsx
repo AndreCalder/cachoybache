@@ -14,7 +14,7 @@ import { Card } from "@/components/ui/card";
 import { Edit, Trash } from "lucide-react";
 import Link from "next/link";
 import ActionLink from "@/components/toolkit/ActionLink";
-import Selector from "@/app/components/selector";
+import MultiSelector from "@/app/components/multi-selector";
 
 function Eventos() {
   const [events, setEvents] = useState([]);
@@ -26,8 +26,8 @@ function Eventos() {
   const [date, setDate] = useState("");
   const [place, setPlace] = useState("");
   const [reload, setReload] = useState(false);
-  const [creativxs, setCreativxs] = useState([]);
-  const [creativx, setCreativx] = useState("");
+  const [creativxsOptions, setCreativxsOptions] = useState([]);
+  const [creativxs, setCreativxs] = useState<string[]>([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<any>(null);
 
@@ -36,7 +36,7 @@ function Eventos() {
       const res = await getAllEvents();
       const creativxRes = await getCreativxs();
       setEvents(res.data.data);
-      setCreativxs(creativxRes.data);
+      setCreativxsOptions(creativxRes.data);
       setLoading(false);
     } catch (error) {
       toast.error("Hubo un error al cargar los eventos");
@@ -57,7 +57,7 @@ function Eventos() {
   };
 
   const submitData = async () => {
-    if (!title || !date || !imageFile) {
+    if (!title || !date || !imageFile || creativxs.length === 0) {
       toast.error("Por favor llena todos los campos");
       return;
     } else {
@@ -77,13 +77,13 @@ function Eventos() {
           date: string;
           cover: string;
           location: string;
-          creativx: string;
+          creativxs: string[];
           media: any[];
         } = {
           title: title,
           date: date,
           location: place,
-          creativx: creativx,
+          creativxs: creativxs,
           cover: coverURL || "",
           media: [],
         };
@@ -94,6 +94,12 @@ function Eventos() {
         toast.success("Evento registrado exitosamente");
 
         setModalOpen(false);
+        setTitle("");
+        setDate("");
+        setPlace("");
+        setCreativxs([]);
+        setImageFile(null);
+        setImagePreview(null);
         setReload(!reload);
       } catch (error) {
         toast.dismiss();
@@ -144,12 +150,12 @@ function Eventos() {
               />
             </div>
             <div className="col-span-12 lg:col-span-6 items-center gap-1.5 py-2">
-              <Selector
-                label="Creativx"
+              <MultiSelector
+                label="Creativxs"
                 placeholder="Seleccionar creativxs"
-                value={creativx}
-                setValue={setCreativx}
-                options={creativxs}
+                values={creativxs}
+                setValues={setCreativxs}
+                options={creativxsOptions}
                 optionLabel="name"
                 optionValue="_id.$oid"
               />
@@ -243,7 +249,11 @@ function Eventos() {
                 <h1 className="text-left text-lg font-semibold">
                   {event.title}
                 </h1>
-                <p className="text-left text-md ">{event.creativx.name}</p>
+                <p className="text-left text-md ">
+                  {event.creativxs && event.creativxs.length > 0 
+                    ? event.creativxs.map((creativx: any) => creativx.name).join(", ")
+                    : "No hay creativxs asignados"}
+                </p>
                 <p className="text-left  font-light text-sm">{event.date}</p>
                 <p className="text-left font-light text-sm">
                   Imágenes: {event.media.length}

@@ -22,6 +22,8 @@ export const createEvent = (data: {
   title: string;
   date: string;
   cover: string;
+  location: string;
+  creativxs: string[];
   media: any[];
 }) => axiosInstance.post("/events/", data);
 
@@ -31,6 +33,8 @@ export const updateEvent = (
     title: string;
     date: string;
     cover: string;
+    location: string;
+    creativxs: string[];
     media: any[];
   }
 ) => axiosInstance.put(`/events/${id}`, data);

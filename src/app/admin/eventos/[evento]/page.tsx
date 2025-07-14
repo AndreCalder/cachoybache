@@ -1,6 +1,6 @@
 "use client";
 
-import { getEvent, updateEvent } from "@/app/api";
+import { getEvent, updateEvent, getCreativxs } from "@/app/api";
 import { Card } from "@/components/ui/card";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -29,6 +29,7 @@ import {
 import { uploadFileAction, uploadVideo } from "@/app/actions";
 import { toast } from "sonner";
 import { Edit, MoveLeftIcon, MoveRightIcon, XIcon } from "lucide-react";
+import MultiSelector from "@/app/components/multi-selector";
 
 interface MediaType {
   id?: string;
@@ -39,6 +40,8 @@ interface EventData {
   cover: string;
   title: string;
   date: string;
+  location: string;
+  creativxs  : any[];
   media: Array<MediaType>;
 }
 
@@ -60,6 +63,9 @@ function Evento() {
   const [editModalOpen, setEditModalOpen] = React.useState(false);
   const [editTitle, setEditTitle] = React.useState("");
   const [editDate, setEditDate] = React.useState("");
+  const [editLocation, setEditLocation] = React.useState("");
+  const [editCreativxs, setEditCreativxs] = React.useState<string[]>([]);
+  const [creativxsOptions, setCreativxsOptions] = React.useState<any[]>([]);
   const [editCoverFile, setEditCoverFile] = React.useState<File | null>(null);
   const [editCoverPreview, setEditCoverPreview] = React.useState<string | null>(
     null
@@ -68,7 +74,9 @@ function Evento() {
 
   const getEventData = async (event: string) => {
     const res = await getEvent(event);
+    const creativxsRes = await getCreativxs();
     setEventData(res.data.data);
+    setCreativxsOptions(creativxsRes.data);
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +104,10 @@ function Evento() {
     if (eventData) {
       setEditTitle(eventData.title);
       setEditDate(eventData.date);
+      setEditLocation(eventData.location || "");
+      setEditCreativxs(
+        eventData.creativxs ? eventData.creativxs.map((c) => c._id.$oid) : []
+      );
       setEditCoverPreview(eventData.cover);
       setEditModalOpen(true);
     }
@@ -134,6 +146,8 @@ function Evento() {
       ...eventData,
       title: editTitle,
       date: editDate,
+      location: editLocation,
+      creativxs: editCreativxs,
       cover: coverUrl,
     };
 
@@ -315,6 +329,29 @@ function Evento() {
           </div>
 
           <div className="w-full items-center gap-1.5 py-2">
+            <Label htmlFor="edit-location">Ubicación</Label>
+            <Input
+              id="edit-location"
+              type="text"
+              value={editLocation}
+              onChange={(e) => setEditLocation(e.target.value)}
+              placeholder="Ubicación del evento"
+            />
+          </div>
+
+          <div className="w-full items-center gap-1.5 py-2">
+            <MultiSelector
+              label="Creativxs"
+              placeholder="Seleccionar creativxs"
+              values={editCreativxs}
+              setValues={setEditCreativxs}
+              options={creativxsOptions}
+              optionLabel="name"
+              optionValue="_id.$oid"
+            />
+          </div>
+
+          <div className="w-full items-center gap-1.5 py-2">
             <Label htmlFor="edit-cover">Imagen de Portada</Label>
             <Input
               id="edit-cover"
@@ -404,7 +441,18 @@ function Evento() {
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-2xl font-bold">{eventData.title}</h2>
-              <p>{eventData.date}</p>
+              <p className="text-gray-600">{eventData.date}</p>
+              {eventData.location && (
+                <p className="text-gray-600">📍 {eventData.location}</p>
+              )}
+              <div className="mt-2">
+                <p className="text-sm font-semibold">Creativxs:</p>
+                <p className="text-sm">
+                  {eventData.creativxs && eventData.creativxs.length > 0
+                    ? eventData.creativxs.map((c) => c.name).join(", ")
+                    : "No hay creativxs asignados"}
+                </p>
+              </div>
             </div>
             <Button onClick={openEditModal} className="ml-4 bg-black">
               <Edit className="text-white" size={16} />
