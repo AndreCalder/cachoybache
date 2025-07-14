@@ -66,10 +66,10 @@ function POS() {
     try {
       let res = await getLocations();
       let statesRes = await getStates();
-      const activeStateId = statesRes.data[0]._id.$oid
-      setStates(statesRes.data);
+      const activeStateId = statesRes.data.data[0]._id.$oid
+      setStates(statesRes.data.data);
       setSelectedState(activeStateId);
-      setLocations(res.data);
+      setLocations(res.data.data);
 
     } catch (error) {
     }
