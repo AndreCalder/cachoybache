@@ -19,39 +19,18 @@ const Modal = ({
         if (event.key === "Escape") {
             setOpen(false)
         }
-    }, []);
+    }, [setOpen]);
 
-    function sleep(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    const addListener = async () => {
-        await sleep(200);
-        let modal = document.getElementById("modal");
-        const closeButton = modal?.querySelector(".lucide-x");
-        if (closeButton) {
-            closeButton.addEventListener("click", () => setOpen(false));
-        }
-    }
     useEffect(() => {
         document.addEventListener("keydown", escFunction, false);
 
-        if (open) {
-            addListener();
-        }
-
         return () => {
             document.removeEventListener("keydown", escFunction, false);
-            const modal = document.getElementById("modal");
-            const closeButton = modal?.querySelector(".lucide-x");
-            if (closeButton) {
-                closeButton.removeEventListener("click", () => setOpen(false));
-            }
         }
-    }, [open]);
+    }, [escFunction]);
 
     return (
-        <Dialog open={open}>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent id="modal" className="w-full sm:max-w-[725px] ">
                 {title && (
                     <DialogHeader>
