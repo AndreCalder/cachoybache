@@ -352,7 +352,9 @@ function Evento() {
           </div>
 
           <div className="w-full items-center gap-1.5 py-2">
-            <Label htmlFor="edit-cover">Imagen de Portada</Label>
+            <Label htmlFor="edit-cover">
+              {editCoverPreview ? "Cambiar imagen de portada" : "Imagen de Portada"}
+            </Label>
             <Input
               id="edit-cover"
               type="file"
