@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAccessToken } from "./accessToken";
 
 //https://cachoybache-dot-mlai-434520.uc.r.appspot.com
 const axiosInstance = axios.create({
@@ -9,6 +10,11 @@ const axiosInstance = axios.create({
   headers: {
     "Content-type": "application/json",
   },
+});
+
+axiosInstance.interceptors.request.use(function (config) {
+  config.headers["Authorization"] = `${getAccessToken()}`;
+  return config;
 });
 
 export const getAllEvents = () => axiosInstance.get("/events/");
@@ -39,7 +45,8 @@ export const updateEvent = (
   }
 ) => axiosInstance.put(`/events/${id}`, data);
 
-export const deleteEvent = (id: string) => axiosInstance.delete(`/events/${id}`);
+export const deleteEvent = (id: string) =>
+  axiosInstance.delete(`/events/${id}`);
 
 export const makeEdition = (data: {
   title: string;
