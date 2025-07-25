@@ -163,7 +163,8 @@ function Edition() {
   const addNewCover = async () => {
     if (newCoverFile && newCoverPreview) {
       const coverUrl = await uploadFileAction(newCoverFile);
-
+      console.log(coverUrl);
+      
       if (coverUrl) {
         const newCover = {
           url: coverUrl,

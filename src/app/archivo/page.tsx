@@ -32,7 +32,7 @@ function Archivo() {
                 {
                     archive.map((edition, index) => {
                         return (
-                            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col gap-1">
+                            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-4 flex flex-col gap-1 p-4">
                                 <div className="w-full flex justify-center">
                                     <Image alt={`${edition.title}-${index}`} className='border-[1px] border-solid border-black' src={activeImages[index].url} width={450} height={600} />
                                 </div>
