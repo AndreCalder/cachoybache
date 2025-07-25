@@ -1,22 +1,27 @@
 import type { NextConfig } from "next";
-const withFonts = require('next-fonts');
+const withFonts = require("next-fonts");
 
 const nextConfig: NextConfig = {
-  images:{
+  images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'wweskyvxhhjpucczrjww.supabase.co',
+        protocol: "https",
+        hostname: "wweskyvxhhjpucczrjww.supabase.co",
       },
       {
-        protocol: 'https',
-        hostname: 'vumbnail.com',
-      }
-    ]
+        protocol: "https",
+        hostname: "vumbnail.com",
+      },
+    ],
+  },
+  api: {
+    bodyParser: {
+      sizeLimit: "200mb",
+    },
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: '200mb',
+      bodySizeLimit: "200mb",
     },
   },
 };
