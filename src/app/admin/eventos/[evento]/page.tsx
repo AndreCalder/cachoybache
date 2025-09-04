@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/tooltip";
 import { uploadFileAction, uploadVideo } from "@/app/actions";
 import { toast } from "sonner";
-import { Edit, MoveLeftIcon, MoveRightIcon, XIcon } from "lucide-react";
+import { Edit, MoveLeftIcon, MoveRightIcon, XIcon, Trash2 } from "lucide-react";
 import MultiSelector from "@/app/components/multi-selector";
 
 interface MediaType {
@@ -41,7 +41,7 @@ interface EventData {
   title: string;
   date: string;
   location: string;
-  creativxs  : any[];
+  creativxs: any[];
   media: Array<MediaType>;
 }
 
@@ -51,9 +51,9 @@ function Evento() {
   const [loading, setLoading] = React.useState(true);
   const [eventData, setEventData] = React.useState<EventData>();
   const [modalOpen, setModalOpen] = React.useState(false);
-  const [fileType, setFileType] = React.useState<string | null>(null);
-  const [imageFile, setImageFile] = React.useState<File | null>(null);
-  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+  const [fileType, setFileType] = React.useState<string | null>("img");
+  const [imageFiles, setImageFiles] = React.useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = React.useState<string[]>([]);
   const [videoUrl, setVideoUrl] = React.useState<string | null>(null);
   const [videoFile, setVideoFile] = React.useState<File | null>(null);
   const [videoPreview, setVideoPreview] = React.useState<string | null>(null);
@@ -71,6 +71,9 @@ function Evento() {
     null
   );
   const [updatingEvent, setUpdatingEvent] = React.useState(false);
+  const [removingMediaIndex, setRemovingMediaIndex] = React.useState<
+    number | null
+  >(null);
 
   const getEventData = async (event: string) => {
     const res = await getEvent(event);
@@ -80,15 +83,22 @@ function Evento() {
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    const files = event.target.files ? Array.from(event.target.files) : [];
+    if (files.length > 0) {
+      setImageFiles(files);
+      Promise.all(
+        files.map(
+          (file) =>
+            new Promise<string>((resolve) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result as string);
+              reader.readAsDataURL(file);
+            })
+        )
+      ).then((results) => setImagePreviews(results));
+    } else {
+      setImageFiles([]);
+      setImagePreviews([]);
     }
   };
 
@@ -168,36 +178,63 @@ function Evento() {
     setEditCoverFile(null);
   };
 
+  const removeMediaItem = async (indexToRemove: number) => {
+    if (!eventData) return;
+
+    setRemovingMediaIndex(indexToRemove);
+    toast.loading("Eliminando elemento...");
+
+    const tempEventData = JSON.parse(JSON.stringify(eventData));
+    tempEventData.media = tempEventData.media.filter(
+      (_: any, idx: number) => idx !== indexToRemove
+    );
+
+    // Adjust lightbox state if needed
+    if (lightBoxActive) {
+      if (activeMedia === indexToRemove) {
+        setLightBoxActive(false);
+      } else if (activeMedia > indexToRemove) {
+        setActiveMedia(activeMedia - 1);
+      }
+    }
+
+    setEventData(tempEventData);
+
+    if (evento) {
+      await updateEvent(encodeURIComponent(evento.toString()), tempEventData);
+    }
+
+    toast.dismiss();
+    toast.success("Elemento eliminado");
+    setRemovingMediaIndex(null);
+  };
+
   const submitData = async () => {
     setUploading(true);
 
     toast.loading("Guardando...");
 
-    let resourceUrl;
-    let type;
-    let id;
+    const tempEventData = JSON.parse(JSON.stringify(eventData));
 
     if (fileType === "img") {
-      if (imageFile) {
-        resourceUrl = await uploadFileAction(imageFile);
-        type = "image";
+      if (imageFiles.length > 0) {
+        const uploadedUrls = await Promise.all(
+          imageFiles.map((file) => uploadFileAction(file))
+        );
+        const newMedia = uploadedUrls
+          .filter((url) => !!url)
+          .map((url) => ({ type: "image", url }));
+        tempEventData.media = [...tempEventData.media, ...newMedia];
       }
     } else if (fileType === "video") {
       if (videoFile) {
-        resourceUrl = await uploadVideo(videoFile);
-        id = resourceUrl.split("/")[2];
-        type = "video";
+        const resourceUrl = await uploadVideo(videoFile);
+        const id = resourceUrl.split("/")[2];
+        const media = { type: "video", url: resourceUrl, id };
+        tempEventData.media.push(media);
       }
     }
 
-    const media = {
-      type: type,
-      url: resourceUrl,
-      id: id,
-    };
-
-    const tempEventData = JSON.parse(JSON.stringify(eventData));
-    tempEventData.media.push(media);
     setEventData(tempEventData);
 
     if (tempEventData && evento) {
@@ -209,6 +246,8 @@ function Evento() {
 
     setUploading(false);
     setModalOpen(false);
+    setImageFiles([]);
+    setImagePreviews([]);
   };
 
   React.useEffect(() => {
@@ -228,6 +267,14 @@ function Evento() {
     };
   }, [evento]);
 
+  React.useEffect(() => {
+    if (modalOpen) {
+      setFileType("img");
+      setImageFiles([]);
+      setImagePreviews([]);
+    }
+  }, [modalOpen]);
+
   if (loading) {
     return <p>Cargando...</p>;
   }
@@ -237,14 +284,13 @@ function Evento() {
         <div className="w-full max-h-[500px] overflow-y-auto px-5">
           <div className="w-full items-center gap-1.5 py-2">
             <Label>Origen</Label>
-            <Select onValueChange={(value) => setFileType(value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona un tipo" />
+            <Select value="img" disabled>
+              <SelectTrigger disabled>
+                <SelectValue placeholder="Imagen" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectItem value="img">Imagen</SelectItem>
-                  <SelectItem value="video">Video</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -256,6 +302,7 @@ function Evento() {
                 id="picture"
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleImageUpload}
               />
             </div>
@@ -279,14 +326,21 @@ function Evento() {
               ></iframe>
             </div>
           )}
-          {imagePreview && fileType === "img" && (
-            <div className="w-full flex items-center justify-center py-5">
-              <Image
-                src={imagePreview}
-                alt="Blogpost Cover"
-                width={400}
-                height={200}
-              />
+          {imagePreviews.length > 0 && fileType === "img" && (
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-4 py-5">
+              {imagePreviews.map((preview, idx) => (
+                <div
+                  key={idx}
+                  className="w-full flex items-center justify-center"
+                >
+                  <Image
+                    src={preview}
+                    alt={`Preview ${idx + 1}`}
+                    width={300}
+                    height={200}
+                  />
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -353,7 +407,9 @@ function Evento() {
 
           <div className="w-full items-center gap-1.5 py-2">
             <Label htmlFor="edit-cover">
-              {editCoverPreview ? "Cambiar imagen de portada" : "Imagen de Portada"}
+              {editCoverPreview
+                ? "Cambiar imagen de portada"
+                : "Imagen de Portada"}
             </Label>
             <Input
               id="edit-cover"
@@ -380,7 +436,9 @@ function Evento() {
           </Button>
         </DialogFooter>
       </Modal>
-      {eventData.media.length > 0 && (
+      <>
+      </>
+      {eventData.media?.length > 0 && (
         <div
           className={`fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-50 flex justify-center items-center ${
             !lightBoxActive ? "hidden" : ""
@@ -473,12 +531,23 @@ function Evento() {
         </Button>
       </div>
 
-      <div className="w-full h-96 overflow-y-scroll grid grid-cols-12">
+      <div className="w-full min-h-48  overflow-y-scroll grid grid-cols-12">
         {eventData?.media.map((media, index) => (
           <div
             key={index}
-            className="col-span-12 md:col-span-4 lg:col-span-3 gap-y-4 flex flex-col p-5 items-center justify-center cursor-pointer"
+            className="col-span-12 md:col-span-4 lg:col-span-3 gap-y-4 flex flex-col p-5 items-center justify-center cursor-pointer relative"
           >
+            <Button
+              className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white h-8 w-8 p-0 rounded"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeMediaItem(index);
+              }}
+              disabled={removingMediaIndex === index}
+              title="Eliminar"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
             {media.type === "image" ? (
               <>
                 <div

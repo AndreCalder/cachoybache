@@ -267,11 +267,11 @@ function Edition() {
           )}
           <div className="w-full px-5 md:px-12 flex items-center gap-5 py-6">
             <p className="text-2xl font-bold tracking-[0.6rem]">
-              PRIMERA EDICIÓN
+              {editionData.subtitle.toUpperCase()}
             </p>
             <div className="flex-1 h-[2px] bg-black"></div>
             <p className="text-2xl font-bold tracking-[0.6rem]">
-              ¿NO QUE NO TRONABAS PISTOLITA?
+              {editionData.title.toUpperCase()}
             </p>
           </div>
           {portada != null && (
@@ -307,28 +307,26 @@ function Edition() {
               )}
               {editionData.gallery.length > 11 && (
                 <div className="col-span-12 flex flex-wrap justify-between gap-2">
-                  {editionData.gallery.slice(11).map((image: { url: any }, index: number) => {
-                    return (
-                      <img
-                        className={`h-[126px] cursor-pointer transition-all object-contain hover:scale-105 aspect-auto`}
-                        src={image.url || ""}
-                        alt={`image-${index}`}
-                        onClick={() => handleImageClick(index)}
-                        key={index}
-                      />
-                    );
-                  })}
+                  {editionData.gallery
+                    .slice(11)
+                    .map((image: { url: any }, index: number) => {
+                      return (
+                        <img
+                          className={`h-[126px] cursor-pointer transition-all object-contain hover:scale-105 aspect-auto`}
+                          src={image.url || ""}
+                          alt={`image-${index}`}
+                          onClick={() => handleImageClick(index)}
+                          key={index}
+                        />
+                      );
+                    })}
                 </div>
               )}
             </div>
           )}
           <div className="w-full flex flex-col px-5 py-3 gap-y-1 md:px-12 min-h-40">
             <p className="text-3xl font-bold italic">PORTADAS</p>
-            <p className="italic">
-              Portada rosa/ Fotografía por Isabel Barba - Portada azul/
-              Fotografía por María Correa - Portada blanco/ Fotografía por Hugo
-              Moreno - Portada verde/ Fotografía por Mariana Guerrero
-            </p>
+            <p className="italic">{editionData.credits}</p>
           </div>
         </>
       )}

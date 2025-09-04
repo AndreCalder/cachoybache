@@ -87,8 +87,9 @@ function Eventos() {
               (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
             )
             .map((event, index) => (
-              <div
+              <Link
                 key={index}
+                href={`/eventos/${event._id.$oid}`}
                 className="w-full flex items-center px-5 gap-x-4 py-2 border-b-[2px] border-black cursor-pointer"
               >
                 <p className="text-[#ED1C1D] font-bold acumin">
@@ -107,10 +108,7 @@ function Eventos() {
                     ? event.creativxs.map((c: any) => c.name).join(", ")
                     : "Por definir.."}
                 </div>
-                {event.media.length > 0 && (
-                  <Link href={`/eventos/${event._id.$oid}`}>Ver más</Link>
-                )}
-              </div>
+              </Link>
             ))}
           {events.length === 0 && (
             <div className="w-full flex items-center justify-center h-full">
