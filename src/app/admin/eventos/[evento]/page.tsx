@@ -26,11 +26,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { uploadFileAction, uploadVideo } from "@/app/actions";
 import { toast } from "sonner";
 import { Edit, MoveLeftIcon, MoveRightIcon, XIcon, Trash2 } from "lucide-react";
 import MultiSelector from "@/app/components/multi-selector";
-
+import { uploadFile as apiUploadFile, uploadVideo as apiUploadVideo } from "@/app/api";
 interface MediaType {
   id?: string;
   type: string;
@@ -146,7 +145,7 @@ function Evento() {
 
     // Upload new cover if selected
     if (editCoverFile) {
-      const uploadResult = await uploadFileAction(editCoverFile);
+      const uploadResult = await apiUploadFile(editCoverFile);
       if (uploadResult) {
         coverUrl = uploadResult;
       }
@@ -219,16 +218,16 @@ function Evento() {
     if (fileType === "img") {
       if (imageFiles.length > 0) {
         const uploadedUrls = await Promise.all(
-          imageFiles.map((file) => uploadFileAction(file))
+          imageFiles.map((file) => apiUploadFile(file))
         );
         const newMedia = uploadedUrls
-          .filter((url) => !!url)
-          .map((url) => ({ type: "image", url }));
+          .filter((url: string) => !!url)
+          .map((url: string) => ({ type: "image", url }));
         tempEventData.media = [...tempEventData.media, ...newMedia];
       }
     } else if (fileType === "video") {
       if (videoFile) {
-        const resourceUrl = await uploadVideo(videoFile);
+        const resourceUrl = await apiUploadVideo(videoFile);
         const id = resourceUrl.split("/")[2];
         const media = { type: "video", url: resourceUrl, id };
         tempEventData.media.push(media);
@@ -436,8 +435,7 @@ function Evento() {
           </Button>
         </DialogFooter>
       </Modal>
-      <>
-      </>
+      <></>
       {eventData.media?.length > 0 && (
         <div
           className={`fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-50 flex justify-center items-center ${

@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import React, { useRef } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
-import { uploadFileAction } from "@/app/actions";
+import { uploadFile as apiUploadFile } from "@/app/api";
 import { MoveLeftIcon, MoveRightIcon, XIcon, Edit } from "lucide-react";
 
 function Edition() {
@@ -58,7 +58,7 @@ function Edition() {
     if (edition) {
       setUploading(true);
       toast.loading("Registrando Imagen");
-      const imgUrl = await uploadFileAction(imageFile as File);
+      const imgUrl = await apiUploadFile(imageFile as File);
 
       if (!imgUrl) {
         setModalOpen(false);
@@ -162,7 +162,7 @@ function Edition() {
 
   const addNewCover = async () => {
     if (newCoverFile && newCoverPreview) {
-      const coverUrl = await uploadFileAction(newCoverFile);
+      const coverUrl = await apiUploadFile(newCoverFile);
       console.log(coverUrl);
       
       if (coverUrl) {

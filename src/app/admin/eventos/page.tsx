@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
-import { uploadFileAction } from "@/app/actions";
+import { uploadFile as apiUploadFile } from "@/app/api";
 import { Card } from "@/components/ui/card";
 import { Edit, Trash } from "lucide-react";
 import Link from "next/link";
@@ -64,7 +64,7 @@ function Eventos() {
       toast.loading("Registrando evento...");
 
       try {
-        const coverURL = await uploadFileAction(imageFile);
+        const coverURL = await apiUploadFile(imageFile);
 
         if (coverURL === "") {
           toast.dismiss();

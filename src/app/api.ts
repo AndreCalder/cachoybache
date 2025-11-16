@@ -108,4 +108,31 @@ export const deleteLocation = (id: string) =>
 export const deleteState = (id: string) =>
   axiosInstance.delete(`/locations/state/${id}`);
 
+// Upload functions
+export const uploadFile = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  const response = await axiosInstance.post('/upload/file', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  
+  return response.data.url;
+};
+
+export const uploadVideo = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  const response = await axiosInstance.post('/upload/video', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  
+  return response.data.uri;
+};
+
 export default axiosInstance;

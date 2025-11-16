@@ -14,16 +14,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  api: {
-    bodyParser: {
-      sizeLimit: "200mb",
-    },
-  },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "200mb",
-    },
-  },
+  // Note: Upload logic moved to Flask API to bypass Vercel's 4.5MB limit
+  // Server actions configuration removed as uploads are now handled by Flask
 };
 
 export default nextConfig;

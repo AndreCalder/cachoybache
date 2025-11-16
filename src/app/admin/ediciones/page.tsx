@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
-import { uploadFileAction } from "@/app/actions";
+import { uploadFile as apiUploadFile } from "@/app/api";
 import { Card } from "@/components/ui/card";
 import { Edit, Trash } from "lucide-react";
 import Link from "next/link";
@@ -73,7 +73,7 @@ function Ediciones() {
     }
     covers.map((cover, index) => {
       if (cover.file) {
-        coverPromiseArr.push(uploadFileAction(cover.file));
+        coverPromiseArr.push(apiUploadFile(cover.file));
       }
     });
 
