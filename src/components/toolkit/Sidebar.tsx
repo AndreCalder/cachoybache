@@ -63,6 +63,11 @@ const Sidebar: React.FC<sidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
           link: `/admin/ubicaciones`,
           text: "Ubicaciones",
           icon: <LocateIcon className="h-5 w-5" />,
+        },
+        {
+          link: `/admin/galeria`,
+          text: "Galería",
+          icon: <ImageIcon className="h-5 w-5" />,
         }
       ],
     },

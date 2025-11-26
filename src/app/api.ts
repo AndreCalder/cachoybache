@@ -5,7 +5,7 @@ import { getAccessToken } from "./accessToken";
 const axiosInstance = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_ENVIRONMENT === "Development"
-      ? "http://localhost:8080"
+      ? "http://127.0.0.1:8080"
       : "https://cachoybache-dot-mlai-434520.uc.r.appspot.com",
   headers: {
     "Content-type": "application/json",
@@ -111,28 +111,44 @@ export const deleteState = (id: string) =>
 // Upload functions
 export const uploadFile = async (file: File): Promise<string> => {
   const formData = new FormData();
-  formData.append('file', file);
-  
-  const response = await axiosInstance.post('/upload/file', formData, {
+  formData.append("file", file);
+
+  const response = await axiosInstance.post("/upload/file", formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
   });
-  
+
   return response.data.url;
 };
 
 export const uploadVideo = async (file: File): Promise<string> => {
   const formData = new FormData();
-  formData.append('file', file);
-  
-  const response = await axiosInstance.post('/upload/video', formData, {
+  formData.append("file", file);
+
+  const response = await axiosInstance.post("/upload/video", formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
   });
-  
+
   return response.data.uri;
 };
+
+// Gallery functions
+export const getGalleryById = (id: string) =>
+  axiosInstance.get(`/galleries/${id}`);
+
+export const getAllGalleries = (page?: number, limit?: number) =>
+  axiosInstance.get("/galleries/", { params: { page, limit } });
+
+export const createGallery = (data: { title: string; cover_url: string }) =>
+  axiosInstance.post("/galleries/", data);
+
+export const updateGallery = (id: string, data: any) =>
+  axiosInstance.put(`/galleries/${id}`, data);
+
+export const deleteGallery = (id: string) =>
+  axiosInstance.delete(`/galleries/${id}`);
 
 export default axiosInstance;

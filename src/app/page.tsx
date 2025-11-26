@@ -6,7 +6,7 @@ import Header from "./components/header";
 import { ArrowUpRight } from "lucide-react";
 import React from "react";
 import Link from "next/link";
-import { getAllEvents } from "./api";
+import { getAllEvents, getGalleryById } from "./api";
 
 export default function Home() {
   const [bgImageParams, setBgImageParams] = React.useState({
@@ -17,6 +17,7 @@ export default function Home() {
     "/CalendarBGImage.png"
   );
   const [events, setEvents] = React.useState<any[]>([]);
+  const [gallery, setGallery] = React.useState<any>(null);
 
   React.useEffect(() => {
     if (window.innerWidth <= 768) {
@@ -34,6 +35,14 @@ export default function Home() {
       } catch (_) {}
     };
     load();
+
+    const loadGallery = async () => {
+      try {
+        const res = await getGalleryById("692717d55f3bd41a441f0db7");
+        setGallery(res.data.data);
+      } catch (_) {}
+    };
+    loadGallery();
   }, []);
 
   const formatDate = (dateStr: string) => {
@@ -117,19 +126,16 @@ export default function Home() {
             </Link>
           </div>
 
-          {events[2] && (
+          {gallery && (
             <div className="col-span-12 lg:col-span-6">
               <div
                 className="w-full aspect-[2/1] bg-cover bg-center"
-                style={{ backgroundImage: `url(${events[2].cover})` }}
+                style={{ backgroundImage: `url(${gallery.cover})` }}
               />
-              <p className="mt-2 text-sm italic">{events[2].location || ""}</p>
-              <Link
-                href={`/eventos/${encodeURIComponent(events[2]._id.$oid)}`}
-                className="block group"
-              >
+              <p className="mt-2 text-sm italic">{gallery.location || ""}</p>
+              <Link href="/galeria" className="block group">
                 <p className="mt-1 font-semibold group-hover:underline flex items-center gap-1">
-                  {events[2].title} <ArrowUpRight className="inline h-4 w-4" />
+                  {gallery.title} <ArrowUpRight className="inline h-4 w-4" />
                 </p>
               </Link>
             </div>

@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { PasswordInput } from '@/components/ui/password-input'
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { PasswordInput } from "@/components/ui/password-input";
 import {
   Form,
   FormControl,
@@ -14,14 +14,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
 import { boolean, number, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useForm } from 'react-hook-form'
-import axiosInstance from '../api'
-import { saveAccessToken } from '../accessToken'
+import { useForm } from "react-hook-form";
+import axiosInstance from "../api";
+import { saveAccessToken } from "../accessToken";
 import { redirect, useRouter } from "next/navigation";
 
 const loginSchema = z.object({
@@ -32,7 +32,6 @@ const loginSchema = z.object({
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 function Login() {
-
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -52,17 +51,21 @@ function Login() {
       password: string;
     }
 
-    await axiosInstance.post<LoginResponse>("/auth/login", data).then((res: any) => {
-      toast.success("Inicio de sesión exitoso");
-      saveAccessToken(res.data.access_token);
+    await axiosInstance
+      .post<LoginResponse>("/auth/login", data)
+      .then((res: any) => {
+        toast.success("Inicio de sesión exitoso");
+        saveAccessToken(res.data.access_token);
 
-      delay(500).then(() => {
-        router.replace(`/admin`);
+        delay(500).then(() => {
+          router.replace(`/admin`);
+        });
+      })
+      .catch((err: unknown) => {
+        console.log(err);
+        setLoading(false);
+        toast.error("Error al iniciar sesión");
       });
-    }).catch((err: unknown) => {
-      setLoading(false);
-      toast.error("Error al iniciar sesión");
-    });
   }
 
   return (
@@ -72,12 +75,8 @@ function Login() {
           <h1 className="text-2xl font-bold text-center">Admin Login</h1>
         </CardHeader>
         <CardContent>
-
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="email"
@@ -120,10 +119,7 @@ function Login() {
               />
               <div className="flex py-3 justify-center">
                 {!loading ? (
-                  <Button
-                    className=" w-full rounded-lg bg-black"
-                    type="submit"
-                  >
+                  <Button className=" w-full rounded-lg bg-black" type="submit">
                     Iniciar Sesión
                   </Button>
                 ) : (
@@ -135,7 +131,7 @@ function Login() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;
