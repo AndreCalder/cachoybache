@@ -14,7 +14,6 @@ function Galeria() {
 
   const getGalleryData = async () => {
     const res = await getGalleryById("692717d55f3bd41a441f0db7".toString());
-    console.log(res.data);
     setGalleryData(res.data.data);
   };
 
@@ -70,7 +69,7 @@ function Galeria() {
             <MoveRightIcon
               className="w-10 h-10 cursor-pointer text-white"
               onClick={() => {
-                if (activeMedia < galleryData.media.length - 1) {
+                if (activeMedia < galleryData.images.length - 1) {
                   setActiveMedia(activeMedia + 1);
                 } else {
                   setActiveMedia(0);
@@ -124,9 +123,7 @@ function Galeria() {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
-                >
-                    
-                </div>
+                ></div>
               </div>
             ))}
           </div>

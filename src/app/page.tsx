@@ -39,6 +39,7 @@ export default function Home() {
     const loadGallery = async () => {
       try {
         const res = await getGalleryById("692717d55f3bd41a441f0db7");
+        console.log(res.data.data);
         setGallery(res.data.data);
       } catch (_) {}
     };
@@ -63,8 +64,8 @@ export default function Home() {
           <Image
             src="/CachoyBache.svg"
             alt="Cacho y Bache logo"
-            width={523}
-            height={252}
+            width={460}
+            height={220}
           />
         </div>
         <div className="grid grid-cols-12 gap-6 py-12">

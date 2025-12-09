@@ -315,7 +315,7 @@ function Edition() {
                           className={`h-[126px] cursor-pointer transition-all object-contain hover:scale-105 aspect-auto`}
                           src={image.url || ""}
                           alt={`image-${index}`}
-                          onClick={() => handleImageClick(index)}
+                          onClick={() => handleImageClick(index + 11)}
                           key={index}
                         />
                       );

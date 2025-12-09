@@ -11,10 +11,8 @@ import { Toaster } from "@/components/ui/sonner";
 
 export default function AdminLayout({
   children,
-  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
 }>) {
   const pathname = usePathname();
   const router = useRouter();

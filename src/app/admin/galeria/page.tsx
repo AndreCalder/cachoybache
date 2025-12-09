@@ -33,18 +33,14 @@ function Galeria() {
   const [gallery, setGallery] = useState<Gallery | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [lightBoxActive, setLightBoxActive] = useState(false);
 
   // Upload modal states
   const [modalOpen, setModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [imageTitle, setImageTitle] = useState("");
-  const [imageAuthor, setImageAuthor] = useState("");
-  const [imageSection, setImageSection] = useState("");
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   // Edit modal states
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -88,24 +84,32 @@ function Galeria() {
 
   useEffect(() => {
     if (modalOpen) {
-      setImageFile(null);
-      setImagePreview(null);
-      setImageTitle("");
-      setImageAuthor("");
-      setImageSection("");
+      setImageFiles([]);
+      setImagePreviews([]);
     }
   }, [modalOpen]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const files = event.target.files;
 
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      setImageFiles(fileArray);
+
+      // Create previews for all selected images
+      const previewPromises = fileArray.map((file) => {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result as string);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      Promise.all(previewPromises).then((previews) => {
+        setImagePreviews(previews);
+      });
     }
   };
 
@@ -177,28 +181,30 @@ function Galeria() {
   };
 
   const submitImageUpload = async () => {
-    if (!imageFile || !gallery) return;
+    if (!imageFiles || imageFiles.length === 0 || !gallery) return;
 
     setUploading(true);
-    toast.loading("Subiendo imagen...");
+    toast.loading(`Subiendo ${imageFiles.length} imagen${imageFiles.length > 1 ? "es" : ""}...`);
 
     try {
-      // First: Upload image file to get URL
-      const imageUrl = await uploadFile(imageFile);
+      // Upload all images sequentially
+      const newImages: GalleryImage[] = [];
+      
+      for (let i = 0; i < imageFiles.length; i++) {
+        toast.loading(`Subiendo imagen ${i + 1} de ${imageFiles.length}...`);
+        const imageUrl = await uploadFile(imageFiles[i]);
 
-      if (!imageUrl) {
-        throw new Error("No se recibió URL de la imagen");
+        if (!imageUrl) {
+          throw new Error(`No se recibió URL de la imagen ${i + 1}`);
+        }
+
+        newImages.push({
+          url: imageUrl,
+        });
       }
 
-      const newImage: GalleryImage = {
-        url: imageUrl,
-        title: imageTitle || undefined,
-        author: imageAuthor || undefined,
-        section: imageSection || undefined,
-      };
-
-      // Then: Update gallery with the new image
-      const updatedImages = [...gallery.images, newImage];
+      // Update gallery with all new images
+      const updatedImages = [...gallery.images, ...newImages];
 
       toast.loading("Guardando en galería...");
       await updateGallery(GALLERY_ID, { images: updatedImages });
@@ -206,12 +212,12 @@ function Galeria() {
       setGallery({ ...gallery, images: updatedImages });
 
       toast.dismiss();
-      toast.success("Imagen agregada correctamente");
+      toast.success(`${newImages.length} imagen${newImages.length > 1 ? "es agregadas" : " agregada"} correctamente`);
       setModalOpen(false);
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error uploading images:", error);
       toast.dismiss();
-      toast.error("Error al subir la imagen");
+      toast.error("Error al subir las imágenes");
     } finally {
       setUploading(false);
     }
@@ -282,68 +288,48 @@ function Galeria() {
   return (
     <Card className="p-5">
       {/* Upload Modal */}
-      <Modal title="Agregar Imagen" open={modalOpen} setOpen={setModalOpen}>
+      <Modal title="Agregar Imágenes" open={modalOpen} setOpen={setModalOpen}>
         <div className="w-full max-h-[500px] overflow-y-auto px-5">
           <div className="w-full items-center gap-1.5 py-2">
-            <Label htmlFor="picture">Imagen</Label>
+            <Label htmlFor="picture">Imágenes</Label>
             <Input
               id="picture"
               type="file"
               accept="image/*"
+              multiple
               onChange={handleImageUpload}
             />
+            {imageFiles.length > 0 && (
+              <p className="text-sm text-gray-500 mt-1">
+                {imageFiles.length} imagen{imageFiles.length > 1 ? "es" : ""} seleccionada{imageFiles.length > 1 ? "s" : ""}
+              </p>
+            )}
           </div>
 
-          <div className="w-full items-center gap-1.5 py-2">
-            <Label htmlFor="image-title">Título (opcional)</Label>
-            <Input
-              id="image-title"
-              type="text"
-              value={imageTitle}
-              onChange={(e) => setImageTitle(e.target.value)}
-              placeholder="Título de la imagen"
-            />
-          </div>
-
-          <div className="w-full items-center gap-1.5 py-2">
-            <Label htmlFor="image-author">Autor (opcional)</Label>
-            <Input
-              id="image-author"
-              type="text"
-              value={imageAuthor}
-              onChange={(e) => setImageAuthor(e.target.value)}
-              placeholder="Autor de la imagen"
-            />
-          </div>
-
-          <div className="w-full items-center gap-1.5 py-2">
-            <Label htmlFor="image-section">Sección (opcional)</Label>
-            <Input
-              id="image-section"
-              type="text"
-              value={imageSection}
-              onChange={(e) => setImageSection(e.target.value)}
-              placeholder="Sección de la imagen"
-            />
-          </div>
-
-          {imagePreview && (
-            <div className="w-full flex items-center justify-center py-5">
-              <Image
-                src={imagePreview}
-                alt="Preview"
-                width={300}
-                height={200}
-              />
+          {imagePreviews.length > 0 && (
+            <div className="w-full py-5">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="relative">
+                    <Image
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                      width={200}
+                      height={150}
+                      className="rounded-md object-cover w-full h-32"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
         <DialogFooter>
           <Button
-            disabled={uploading || !imageFile}
+            disabled={uploading || imageFiles.length === 0}
             onClick={submitImageUpload}
           >
-            {uploading ? "Subiendo..." : "Agregar"}
+            {uploading ? "Subiendo..." : `Agregar ${imageFiles.length > 0 ? `(${imageFiles.length})` : ""}`}
           </Button>
         </DialogFooter>
       </Modal>
