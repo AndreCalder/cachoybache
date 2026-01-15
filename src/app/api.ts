@@ -151,4 +151,26 @@ export const updateGallery = (id: string, data: any) =>
 export const deleteGallery = (id: string) =>
   axiosInstance.delete(`/galleries/${id}`);
 
+// Seccion Amarilla (Yellow Pages) functions
+export const getSeccionAmarilla = () => axiosInstance.get("/seccionamarilla/");
+
+export const createSeccionAmarillaEntry = (data: { title: string; url: string }) =>
+  axiosInstance.post("/seccionamarilla/", data);
+
+export const deleteSeccionAmarillaEntry = (id: string) =>
+  axiosInstance.delete(`/seccionamarilla/${id}`);
+
+export const uploadPdf = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await axiosInstance.post("/upload/file", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data.url;
+};
+
 export default axiosInstance;

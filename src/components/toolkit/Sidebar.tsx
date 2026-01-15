@@ -18,6 +18,7 @@ import {
   Book,
   PersonStanding,
   LocateIcon,
+  FileText,
 } from "lucide-react";
 
 import { Command, CommandGroup, CommandList } from "@/components/ui/command";
@@ -68,6 +69,11 @@ const Sidebar: React.FC<sidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
           link: `/admin/galeria`,
           text: "Galería",
           icon: <ImageIcon className="h-5 w-5" />,
+        },
+        {
+          link: `/admin/seccionamarilla`,
+          text: "Sección Amarilla",
+          icon: <FileText className="h-5 w-5" />,
         }
       ],
     },

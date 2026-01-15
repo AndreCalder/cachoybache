@@ -1,11 +1,95 @@
-import React from 'react'
+"use client";
+
+import React, { useEffect, useState } from 'react'
 import Subtitle from '../components/subtitle'
 import Image from 'next/image'
 import Link from 'next/link'
+import { getSeccionAmarilla } from '../api'
+import { FileText } from 'lucide-react'
+
+interface SeccionAmarillaEntry {
+  _id: { $oid: string };
+  title: string;
+  url: string;
+}
+
 function YellowPages() {
+  const [entries, setEntries] = useState<SeccionAmarillaEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEntries = async () => {
+      try {
+        const response = await getSeccionAmarilla();
+        setEntries(response.data.data || response.data || []);
+      } catch (error) {
+        console.error("Error fetching seccion amarilla:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEntries();
+  }, []);
+
+  // If there are entries, show only the PDF section
+  if (!loading && entries.length > 0) {
+    return (
+      <main className="w-screen yellowpages pt-24">
+        <Subtitle subtitle="SECCIÓN AMARILLA" classes="border-b-2 border-solid border-black" />
+        
+        <div className="w-full px-5 md:px-12 py-6 min-h-[calc(100vh-200px)]">
+          <div className="w-full border-[2px] border-solid border-black p-6">
+            <h2 className="font-bold text-xl mb-6 flex justify-between max-w-xs">
+              <span>A</span>
+              <span>R</span>
+              <span>C</span>
+              <span>H</span>
+              <span>I</span>
+              <span>V</span>
+              <span>O</span>
+              <span>S</span>
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {entries.map((entry) => (
+                <a
+                  key={entry._id.$oid}
+                  href={entry.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-[2px] border-solid border-black p-4 hover:bg-yellow-50 transition-colors flex flex-col items-center gap-3 group"
+                >
+                  <div className="w-full aspect-[3/4] bg-gray-100 border border-gray-300 flex items-center justify-center relative overflow-hidden">
+                    <iframe
+                      src={`${entry.url}#toolbar=0&navpanes=0&scrollbar=0`}
+                      className="w-full h-full pointer-events-none"
+                      title={entry.title}
+                    />
+                    <div className="absolute inset-0 bg-transparent group-hover:bg-black/5 transition-colors" />
+                  </div>
+                  <div className="w-full text-center">
+                    <p className="font-bold text-sm truncate" title={entry.title}>
+                      {entry.title}
+                    </p>
+                    <p className="text-xs text-gray-500 flex items-center justify-center gap-1 mt-1">
+                      <FileText className="w-3 h-3" />
+                      PDF
+                    </p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  // Default view with static content (shown when no entries or loading)
   return (
     <main className="w-screen yellowpages pt-24">
       <Subtitle subtitle="SECCIÓN AMARILLA" classes="border-b-2 border-solid border-black" />
+
       <div className="min-h-80 w-100 grid grid-cols-12 px-5 md:px-12 py-6 gap-6">
         <div className="h-full col-span-12 lg:col-span-6 xl:col-span-2 flex flex-col justify-start gap-y-6">
           <div className="min-h-60 flex-1 w-full border-[2px] border-solid border-black p-4">
@@ -43,7 +127,7 @@ function YellowPages() {
               <span>Página Web:</span>
               <a href="https://astronomafilms.com">astronomafilms.com</a>
             </div>
-            <p className='text-justify text-xs py-2'>Somos una casa productora conformada por jóvenes que buscan convertir el cine en un medio accesible, a través de impulsar propuestas y talentos emergentes con alto nivel técnico y creativo. </p>
+            <p className='text-justify text-xs py-2'>Somos una casa productora conformada por jóvenes que buscan convertir el cine en un medio accesible, a través de impulsar propuestas y talentos emergentes con alto nivel técnico y creativo. </p>
           </div>
           <div className="w-full border-[2px] border-dashed border-black p-4">
             <div className="w-full border-[2px] border-solid border-black p-2">
@@ -132,7 +216,7 @@ function YellowPages() {
                 </div>
               </div>
             </div>
-            <p className='text-justify py-6 text-xs'><span className='font-bold'>María Muñóz/ Roberto Michelsen/</span> Proyecto social, gastronómico y recreativo. Cuenta con un horario de lunes a viernes (próximamente fines de semana) de 10am-5pm en el cual se ofrecen ricos desayunos y comidas. Nos gusta pasarla bien y nos gusta que la pasen bien estando con nosotros. </p>
+            <p className='text-justify py-6 text-xs'><span className='font-bold'>María Muñóz/ Roberto Michelsen/</span> Proyecto social, gastronómico y recreativo. Cuenta con un horario de lunes a viernes (próximamente fines de semana) de 10am-5pm en el cual se ofrecen ricos desayunos y comidas. Nos gusta pasarla bien y nos gusta que la pasen bien estando con nosotros. </p>
           </div>
           <div className="min-h-40 flex-1 w-full border-[2px] border-solid border-black py-3 p-4 flex flex-col justify-between">
             <div className="font-bold flex justify-between text-xl tracking-[0.5em]">

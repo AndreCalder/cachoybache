@@ -116,7 +116,7 @@ export default function Home() {
                   })`,
                 }}
               />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-600/80">
                 <p className="text-white text-3xl sm:text-4xl font-bold text-center">
                   CALENDARIO DE EVENTOS
                 </p>
